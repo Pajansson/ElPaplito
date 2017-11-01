@@ -123,5 +123,16 @@ namespace BankDatabaseRepo
 
         }
 
+        public string GetCurrentTextFile()
+        {
+            DirectoryInfo info = new DirectoryInfo(@"C:\Development\Bank\");
+            FileInfo[] files = info.GetFiles().OrderByDescending(p => p.CreationTime).ToArray();
+
+            var bankInfo = files[0];
+            var fileName = Path.GetFileName(bankInfo.ToString());
+
+            return fileName;
+        }
+
     }
 }
