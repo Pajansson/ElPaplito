@@ -112,6 +112,7 @@ namespace BankDatabaseRepo
         {
             try
             {
+                transaction.TransactionId = _transaction.Count() + 1;
                 _transaction.Add(transaction);
                 return true;
             }
