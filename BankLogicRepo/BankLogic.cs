@@ -2,25 +2,22 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Transactions;
-using Transaction = BankLib.Transaction;
-
 
 namespace BankLogicRepo
 {
     public class BankLogic
     {
-        public string Transaction(Transaction transaction)
+        public string Transaction(int fromAccId, int toAccId, decimal amount)
         {
             var accounts = new List<Account>(); //todo get data
-            var fromAcc = accounts.FirstOrDefault(x => x.AccountId == transaction.FromAccountId);
-            var toAcc = accounts.FirstOrDefault(x => x.AccountId == transaction.ToAccountId);
-            var result = "";
+            var fromAcc = accounts.FirstOrDefault(x => x.AccountId == fromAccId);
+            var toAcc = accounts.FirstOrDefault(x => x.AccountId == toAccId);
+            string result;
 
-            if (CheckIfTransactionPossible(transaction))
+            if (CheckIfTransactionPossible(fromAccId, amount))
             {
-                fromAcc.Balance = -transaction.Amount;
-                toAcc.Balance = +transaction.Amount;
+                fromAcc.Balance = amount;
+                toAcc.Balance = + amount;
                 result = "Success";
             }
             else
@@ -30,12 +27,12 @@ namespace BankLogicRepo
             return result;
         }
 
-        public bool CheckIfTransactionPossible(Transaction transaction)
+        public bool CheckIfTransactionPossible(int fromAccId, decimal amount)
         {
             var accounts = new List<Account>(); //todo get data
-            var fromAcc = accounts.FirstOrDefault(x => x.AccountId == transaction.FromAccountId);
+            var fromAcc = accounts.FirstOrDefault(x => x.AccountId == fromAccId);
 
-            if (fromAcc.Balance <= transaction.Amount && transaction.Amount > 0)
+            if (fromAcc.Balance <= amount && amount > 0)
             {
                 return false;
             }
