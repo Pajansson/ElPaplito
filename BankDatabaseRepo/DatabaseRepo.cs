@@ -25,7 +25,6 @@ namespace BankDatabaseRepo
 
         public Tuple<List<Account>, List<Customer>> ImportAllData()
         {
-
             DirectoryInfo info = new DirectoryInfo(@"C:\Development\Bank\");
             FileInfo[] files = info.GetFiles().OrderByDescending(p => p.CreationTime).ToArray();
 
@@ -33,25 +32,11 @@ namespace BankDatabaseRepo
             var x = Path.GetFileName(bankInfo.ToString());
 
             string[] arr = System.IO.File.ReadAllLines($"C:\\Development\\Bank\\{x}");
-            int lineCountOne = 0;
-            int lineCountTwo = 0;
-
+            
             foreach (var line in arr)
             {
-                if (_customer.Count() == 0 && !line.Contains(";"))
-                {
-                    lineCountOne = Int32.Parse(line);
-                    continue;
-                }
-
-                if (_customer.Count() == lineCountOne && !line.Contains(";"))
-                {
-                    lineCountTwo = Int32.Parse(line);
-                    continue;
-
-                }
-
-                if (lineCountOne != _customer.Count())
+                var items = line.Split(';');
+                if (items.Length == 9)
                 {
                     //Add to customer.
                     Customer customer = new Customer();
@@ -69,7 +54,7 @@ namespace BankDatabaseRepo
 
                     _customer.Add(customer);
                 }
-                else if (lineCountTwo != _accounts.Count())
+                else if (items.Length == 3)
                 {
                     //Add to account.
                     Account account = new Account();
@@ -82,9 +67,7 @@ namespace BankDatabaseRepo
                     _accounts.Add(account);
                 }
             }
-
             var tuple = new Tuple<List<Account>, List<Customer>>(_accounts,_customer);
-
             return tuple;
         }
 
