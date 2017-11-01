@@ -8,6 +8,12 @@ namespace BankConsole
         static void Main(string[] args)
         {
           DisplayMenu();
+
+            var dbRepo = new DatabaseRepo();
+
+
+            var x = dbRepo.ImportAllData();
+            dbRepo.SaveDateToTextFile();
         }
 
         public static void DisplayMenu()
