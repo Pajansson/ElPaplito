@@ -19,9 +19,9 @@ namespace BankConsole
         public static void DisplayMenu()
         {
             DrawStarLine();
-            Console.WriteLine("* Welcome to ElPaplito, the best bank in the world! *");
+            Console.WriteLine("* Welcome to ElPaplito, the worst bank in the world! *");
             DrawStarLine();
-            Console.WriteLine("Importing");
+            Console.WriteLine("Importing from ");
             Console.WriteLine("Total Customers:" );
             Console.WriteLine("Total Accounts:");
             Console.WriteLine("Total balance:");
