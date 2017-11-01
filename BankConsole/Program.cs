@@ -9,9 +9,9 @@ namespace BankConsole
         {
             var dbRepo = new DatabaseRepo();
 
-            dbRepo.SaveDateToTextFile();
-            var x = dbRepo.ImportAllData();
 
+            var x = dbRepo.ImportAllData();
+            dbRepo.SaveDateToTextFile();
             foreach (var accounts in x.Item1)
             {
                 Console.WriteLine("AccountId:{0}, CustomerId:{1}, Balance:{2}", accounts.AccountId, accounts.CustomerId, accounts.Balance);

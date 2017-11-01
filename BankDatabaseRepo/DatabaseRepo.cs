@@ -4,6 +4,8 @@ using System.Collections.Generic;
 using System.Globalization;
 using System.IO;
 using System.Linq;
+using System.Threading;
+
 namespace BankDatabaseRepo
 {
 
@@ -28,10 +30,9 @@ namespace BankDatabaseRepo
             FileInfo[] files = info.GetFiles().OrderByDescending(p => p.CreationTime).ToArray();
 
             var bankInfo = files[0];
-
             var x = Path.GetFileName(bankInfo.ToString());
 
-            string[] arr = System.IO.File.ReadAllLines(@"C:\Development\Bank\bankdata-small.txt");
+            string[] arr = System.IO.File.ReadAllLines($"C:\\Development\\Bank\\{x}");
             int lineCountOne = 0;
             int lineCountTwo = 0;
 
@@ -102,7 +103,7 @@ namespace BankDatabaseRepo
                 file.WriteLine(_accounts.Count().ToString());
                 foreach (var line in _accounts)
                 {
-                    file.WriteLine($"{line.AccountId};{line.AccountId};{line.Balance}");
+                    file.WriteLine($"{line.AccountId};{line.AccountId};{line.Balance.ToString().Replace(',', '.')}");
                 }
 
             }
