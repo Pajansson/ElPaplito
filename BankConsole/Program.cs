@@ -1,4 +1,5 @@
-﻿using System;
+﻿using BankDatabaseRepo;
+using System;
 
 namespace BankConsole
 {
@@ -6,6 +7,9 @@ namespace BankConsole
     {
         static void Main(string[] args)
         {
+            var dbRepo = new DatabaseRepo();
+
+            dbRepo.SaveDateToTextFile();
             Console.WriteLine("Hello World!");
         }
     }
