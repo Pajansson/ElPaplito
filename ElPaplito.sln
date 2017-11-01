@@ -3,7 +3,9 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio 15
 VisualStudioVersion = 15.0.27004.2006
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "BankLib", "BankLib\BankLib.csproj", "{0F14739E-800C-4E8B-91E1-CDD5B7983483}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "BankLib", "BankLib\BankLib.csproj", "{0F14739E-800C-4E8B-91E1-CDD5B7983483}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "BankLogicRepo", "BankLogicRepo\BankLogicRepo.csproj", "{E6F9C656-5CFA-4F70-8E70-EAD8120366E2}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -15,6 +17,10 @@ Global
 		{0F14739E-800C-4E8B-91E1-CDD5B7983483}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{0F14739E-800C-4E8B-91E1-CDD5B7983483}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{0F14739E-800C-4E8B-91E1-CDD5B7983483}.Release|Any CPU.Build.0 = Release|Any CPU
+		{E6F9C656-5CFA-4F70-8E70-EAD8120366E2}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{E6F9C656-5CFA-4F70-8E70-EAD8120366E2}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{E6F9C656-5CFA-4F70-8E70-EAD8120366E2}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{E6F9C656-5CFA-4F70-8E70-EAD8120366E2}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
