@@ -15,7 +15,7 @@ namespace BankConsole
 
         public static void DisplayMenu(DatabaseRepo _repo)
         {
-            
+
 
             DrawStarLine();
             Console.WriteLine("* Welcome to ElPaplito, the worst bank in the world! *");
@@ -41,7 +41,11 @@ namespace BankConsole
             if (userChoice == "0")
             {
                 Console.WriteLine();
-                Console.WriteLine("Search");
+                Console.WriteLine("Search:");
+                var result = Console.ReadLine();
+                Search(_repo, result);
+
+
             }
             else if (userChoice == "1")
             {
@@ -104,7 +108,37 @@ namespace BankConsole
 
         private static void Search(DatabaseRepo _repo, string searchPatern)
         {
-            var result = _repo;
+            var result = _repo.AllCustomers().Where(x => x.Name.Contains(searchPatern) || x.City.Contains(searchPatern)).ToList();
+
+            if (result.Count() == 0)
+            {
+                Console.WriteLine($"Nein nobody here");
+            }
+            else
+            {
+                foreach (var item in result)
+                {
+                    Console.WriteLine($"{item.CustomerId} : {item.Name}");
+                }
+            }
+            Console.WriteLine();
+            Console.WriteLine("Search again press 0 else press 1");
+            var input = Console.ReadLine();
+
+            if (input == "0")
+            {
+                Console.WriteLine();
+                DrawStarLine();
+                Console.WriteLine();
+                Console.WriteLine("Search");
+                var result1 = Console.ReadLine();
+                Search(_repo, result1);
+            }
+            else
+            {
+                DisplayMenu(_repo);
+            }
+
         }
 
     }
