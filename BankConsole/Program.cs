@@ -1,6 +1,7 @@
 ﻿using BankDatabaseRepo;
 using System;
 using System.Linq;
+using BankLib;
 
 namespace BankConsole
 {
@@ -15,8 +16,6 @@ namespace BankConsole
 
         public static void DisplayMenu(DatabaseRepo _repo)
         {
-            
-
             DrawStarLine();
             Console.WriteLine("* Welcome to ElPaplito, the worst bank in the world! *");
             DrawStarLine();
@@ -46,12 +45,24 @@ namespace BankConsole
             else if (userChoice == "1")
             {
                 Console.WriteLine();
-                Console.WriteLine("Show customer");
+                Console.WriteLine("Insert customerId:");
+                var customerId = Int32.Parse(Console.ReadLine());
+                var result = ShowCustomer(_repo, customerId);
+                Console.WriteLine("CustomerId: " + result.CustomerId);
+                Console.WriteLine("Orginisation: " + result.OrginisationNumber);
+                Console.WriteLine("Name: " + result.Name);
+                Console.WriteLine("Adress: " + result.Adress);
             }
             else if (userChoice == "2")
             {
                 Console.WriteLine();
-                Console.WriteLine("Withdraw");
+                Console.WriteLine("From which account?");
+                var fromAcc = Int32.Parse(Console.ReadLine());
+                Console.WriteLine("To which account?");
+                var toAcc = Int32.Parse(Console.ReadLine());
+                Console.WriteLine("Amount:");
+                var amount = decimal.Parse(Console.ReadLine());
+                
             }
             else if (userChoice == "3")
             {
@@ -107,5 +118,9 @@ namespace BankConsole
             var result = _repo;
         }
 
+        private static Customer ShowCustomer(DatabaseRepo _repo, int customerId)
+        {
+            return _repo.AllCustomers().FirstOrDefault(x => x.CustomerId == customerId);
+        }
     }
 }
