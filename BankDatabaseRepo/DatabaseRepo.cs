@@ -33,5 +33,22 @@ namespace BankDatabaseRepo
             }
         }
 
+
+        public void SaveDateToTextFile()
+        {
+            DateTime time = DateTime.Now;
+
+            time.ToString("yyyymmdd-hhmm");
+
+            //using (System.IO.StreamWriter file = new System.IO.StreamWriter($"C:\\Development\\Bank\\WriteLines2.txt"))
+            //{
+            //    foreach(var line in _customer)
+            //    {
+            //            file.WriteLine(line);  
+            //    }
+            //}
+        }
+
+
     }
 }
