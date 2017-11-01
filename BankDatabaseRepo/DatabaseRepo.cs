@@ -110,5 +110,25 @@ namespace BankDatabaseRepo
         }
 
 
+        public List<Account> AllAccounts()
+        {
+            return _accounts;
+        }
+
+        public List<Transaction> AllTransactions()
+        {
+            return _transaction;
+        }
+
+        public List<Customer> AllCustomers()
+        {
+            return _customer;
+        }
+
+        //public bool CreateTransaction(int fromAccount, int toAccount, decimal amount)
+        //{
+
+        //}
+
     }
 }
