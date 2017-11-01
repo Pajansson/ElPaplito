@@ -1,7 +1,9 @@
 ﻿using BankLib;
 using System;
 using System.Collections.Generic;
+using System.Globalization;
 using System.IO;
+using System.Linq;
 
 namespace BankDatabaseRepo
 {
@@ -20,17 +22,70 @@ namespace BankDatabaseRepo
             _transaction = new List<Transaction>();
         }
 
-        public void ImportAllData()
+        public Tuple<List<Account>, List<Customer>> ImportAllData()
         {
-            List<string> list = new List<string>();
-            using (StreamReader reader = new StreamReader("bankdata-small.txt"))
+
+            DirectoryInfo info = new DirectoryInfo(@"C:\Development\Bank\");
+            FileInfo[] files = info.GetFiles().OrderByDescending(p => p.CreationTime).ToArray();
+
+            var bankInfo = files[0];
+
+            var x = Path.GetFileName(bankInfo.ToString());
+
+            string[] arr = System.IO.File.ReadAllLines(@"C:\Development\Bank\bankdata-small.txt");
+            int lineCountOne = 0;
+            int lineCountTwo = 0;
+
+            foreach (var line in arr)
             {
-                string line;
-                while ((line = reader.ReadLine()) != null)
+                if (_customer.Count() == 0 && !line.Contains(";"))
                 {
-                    list.Add(line);
+                    lineCountOne = Int32.Parse(line);
+                    continue;
+                }
+
+                if (_customer.Count() == lineCountOne && !line.Contains(";"))
+                {
+                    lineCountTwo = Int32.Parse(line);
+                    continue;
+
+                }
+
+                if (lineCountOne != _customer.Count())
+                {
+                    //Add to customer.
+                    Customer customer = new Customer();
+                    string[] parts = line.Split(';');
+
+                    customer.CustomerId = Int32.Parse(parts[0]);
+                    customer.OrginisationNumber = parts[1];
+                    customer.Name = parts[2];
+                    customer.Adress = parts[3];
+                    customer.City = parts[4];
+                    customer.State = parts[5];
+                    customer.ZipCode = parts[6];
+                    customer.Country = parts[7];
+                    customer.Phone = parts[8];
+
+                    _customer.Add(customer);
+                }
+                else if (lineCountTwo != _accounts.Count())
+                {
+                    //Add to account.
+                    Account account = new Account();
+                    string[] parts = line.Split(';');
+
+                    account.AccountId = Int32.Parse(parts[0]);
+                    account.CustomerId = Int32.Parse(parts[1]);
+                    account.Balance = Decimal.Parse(parts[2], CultureInfo.InvariantCulture);
+
+                    _accounts.Add(account);
                 }
             }
+
+            var tuple = new Tuple<List<Account>, List<Customer>>(_accounts,_customer);
+
+            return tuple;
         }
 
 
