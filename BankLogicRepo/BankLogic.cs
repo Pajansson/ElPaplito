@@ -60,14 +60,5 @@ namespace BankLogicRepo
             }
         }
 
-        public void Search(string searchInput)
-        {
-            //todo
-        }
-
-        public int CountCustomers(List<Customer> customers)
-        {
-            return customers.Count;
-        }
     }
 }
