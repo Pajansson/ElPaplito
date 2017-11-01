@@ -4,7 +4,6 @@ using System.Collections.Generic;
 using System.Globalization;
 using System.IO;
 using System.Linq;
-
 namespace BankDatabaseRepo
 {
 
@@ -93,15 +92,20 @@ namespace BankDatabaseRepo
         {
             DateTime time = DateTime.Now;
 
-            time.ToString("yyyymmdd-hhmm");
+            using (System.IO.StreamWriter file = new System.IO.StreamWriter($"C:\\Development\\Bank\\{time.ToString("yyyyMMdd-HHmm")}.txt"))
+            {
+                file.WriteLine(_customer.Count().ToString());
+                foreach (var line in _customer)
+                {
+                    file.WriteLine($"{line.CustomerId};{line.OrginisationNumber};{line.Name};{line.Adress};{line.City};{line.State};{line.ZipCode};{line.Country};{line.Phone}");
+                }
+                file.WriteLine(_accounts.Count().ToString());
+                foreach (var line in _accounts)
+                {
+                    file.WriteLine($"{line.AccountId};{line.AccountId};{line.Balance}");
+                }
 
-            //using (System.IO.StreamWriter file = new System.IO.StreamWriter($"C:\\Development\\Bank\\WriteLines2.txt"))
-            //{
-            //    foreach(var line in _customer)
-            //    {
-            //            file.WriteLine(line);  
-            //    }
-            //}
+            }
         }
 
 
