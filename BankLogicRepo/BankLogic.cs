@@ -2,6 +2,7 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using BankDatabaseRepo;
 
 namespace BankLogicRepo
 {
@@ -9,15 +10,22 @@ namespace BankLogicRepo
     {
         public string Transaction(int fromAccId, int toAccId, decimal amount)
         {
-            var accounts = new List<Account>(); //todo get data
+            var bankDb = new DatabaseRepo();
+            var accounts = bankDb.AllAccounts();
             var fromAcc = accounts.FirstOrDefault(x => x.AccountId == fromAccId);
             var toAcc = accounts.FirstOrDefault(x => x.AccountId == toAccId);
             string result;
 
-            if (CheckIfTransactionPossible(fromAccId, amount))
+            if (CheckIfTransactionPossible(fromAcc, amount))
             {
                 fromAcc.Balance = amount;
-                toAcc.Balance = + amount;
+                toAcc.Balance = +amount;
+                bankDb.CreateTransaction(new Transaction
+                {
+                    Amount = amount,
+                    FromAccountId = fromAccId,
+                    ToAccountId = toAccId
+                });
                 result = "Success";
             }
             else
@@ -27,11 +35,8 @@ namespace BankLogicRepo
             return result;
         }
 
-        public bool CheckIfTransactionPossible(int fromAccId, decimal amount)
+        public bool CheckIfTransactionPossible(Account fromAcc, decimal amount)
         {
-            var accounts = new List<Account>(); //todo get data
-            var fromAcc = accounts.FirstOrDefault(x => x.AccountId == fromAccId);
-
             if (fromAcc.Balance <= amount && amount > 0)
             {
                 return false;
@@ -43,22 +48,26 @@ namespace BankLogicRepo
         {
             if (amount > 0)
             {
-                account.Balance =+ amount;
+                account.Balance = +amount;
             }
         }
 
         public void Withdraw(decimal amount, Account account)
         {
-            if (amount > 0)
+            if (amount > 0 && account.Balance >= amount)
             {
-                account.Balance =- amount;
+                account.Balance = -amount;
             }
         }
-
 
         public void Search(string searchInput)
         {
             //todo
+        }
+
+        public int CountCustomers(List<Customer> customers)
+        {
+            return customers.Count;
         }
     }
 }

@@ -5,6 +5,7 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <ProjectReference Include="..\BankDatabaseRepo\BankDatabaseRepo.csproj" />
     <ProjectReference Include="..\BankLib\BankLib.csproj" />
   </ItemGroup>
 
