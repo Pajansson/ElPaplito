@@ -32,7 +32,7 @@ namespace BankDatabaseRepo
             var x = Path.GetFileName(bankInfo.ToString());
 
             string[] arr = System.IO.File.ReadAllLines($"C:\\Development\\Bank\\{x}");
-            
+
             foreach (var line in arr)
             {
                 var items = line.Split(';');
@@ -67,7 +67,7 @@ namespace BankDatabaseRepo
                     _accounts.Add(account);
                 }
             }
-            var tuple = new Tuple<List<Account>, List<Customer>>(_accounts,_customer);
+            var tuple = new Tuple<List<Account>, List<Customer>>(_accounts, _customer);
             return tuple;
         }
 
@@ -108,10 +108,19 @@ namespace BankDatabaseRepo
             return _customer;
         }
 
-        //public bool CreateTransaction(int fromAccount, int toAccount, decimal amount)
-        //{
+        public bool CreateTransaction(Transaction transaction)
+        {
+            try
+            {
+                _transaction.Add(transaction);
+                return true;
+            }
+            catch (Exception)
+            {
+                return false;
+            }
 
-        //}
+        }
 
     }
 }
