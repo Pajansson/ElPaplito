@@ -52,19 +52,36 @@ namespace BankConsole
             else if (userChoice == "1")
             {
                 Console.WriteLine();
-                Console.WriteLine("Insert customerId:");
+                Console.WriteLine("CustomerId:");
                 var customerId = Int32.Parse(Console.ReadLine());
+                while (ShowCustomer(_repo, customerId) == null)
+                {
+                    Console.WriteLine("Could not find any customer, try again...");
+                    customerId = Int32.Parse(Console.ReadLine());
+                }
                 var result = ShowCustomer(_repo, customerId);
                 Console.WriteLine("CustomerId: " + result.CustomerId);
                 Console.WriteLine("Orginisation: " + result.OrginisationNumber);
                 Console.WriteLine("Name: " + result.Name);
                 Console.WriteLine("Adress: " + result.Adress);
+                var accs = bankLogic.GetCustomersAccounts(customerId, _repo.AllAccounts());
+                foreach (var acc in accs)
+                {
+                    Console.Write("Account: " + acc.AccountId);
+                    Console.WriteLine(" Balance: " + acc.Balance);
+                }
+                DisplayMenu(_repo,bankLogic);
             }
             else if (userChoice == "2")
             {
                 Console.WriteLine();
-                Console.WriteLine("From which Customer?");
+                Console.WriteLine("CustomerId: ");
                 var fromCusId = Int32.Parse(Console.ReadLine());
+                while (_repo.AllCustomers().FirstOrDefault(x => x.CustomerId == fromCusId) == null)
+                {
+                    Console.WriteLine("Could not find any customer, try again...");
+                    fromCusId = Int32.Parse(Console.ReadLine());
+                }
                 var cusAccs = bankLogic.GetCustomersAccounts(fromCusId, _repo.AllAccounts());
                 foreach (var acc in cusAccs)
                 {
@@ -74,16 +91,24 @@ namespace BankConsole
                 Console.WriteLine("Which account?");
                 var fromAccId = Int32.Parse(Console.ReadLine());
                 var fromAcc = _repo.AllAccounts().FirstOrDefault(x => x.AccountId == fromAccId);
-                if (fromAcc == null)
+                while (_repo.AllAccounts().FirstOrDefault(x => x.AccountId == fromAccId) == null)
                 {
-                    Console.WriteLine("Could not find account!");
+                    Console.WriteLine("Could not find account, try again...");
+                    fromAccId = Int32.Parse(Console.ReadLine());
                 }
                 Console.WriteLine("Amount:");
-                var amount = decimal.Parse(Console.ReadLine());
-    
-                bankLogic.Withdraw(amount, fromAccId, _repo);
+                var amount = (Console.ReadLine());
+                if (amount.Contains("-"))
+                {
+                    Console.WriteLine("No negative number are allowed");
+                }
+                else
+                {
+                    bankLogic.Withdraw(decimal.Parse(amount), fromAccId, _repo);
+                }
+                
                 Console.WriteLine("You now have " + fromAcc.Balance +"$ left!");
-
+                DisplayMenu(_repo, bankLogic);
             }
             else if (userChoice == "3")
             {
@@ -239,7 +264,7 @@ namespace BankConsole
 
         private static void DrawStarLine()
         {
-            Console.WriteLine("*****************************************************");
+            Console.WriteLine("******************************************************");
 
         }
 
@@ -278,12 +303,6 @@ namespace BankConsole
 
         }
 
-        private static bool SearchCustomer(Customer customer)
-        {
-            if (customer != null) return true;
-            Console.WriteLine("Could not find customer!");
-            return false;
-        }
         private static Customer ShowCustomer(DatabaseRepo _repo, int customerId)
         {
             return _repo.AllCustomers().FirstOrDefault(x => x.CustomerId == customerId);
