@@ -86,7 +86,7 @@ namespace BankDatabaseRepo
                 file.WriteLine(_accounts.Count().ToString());
                 foreach (var line in _accounts)
                 {
-                    file.WriteLine($"{line.AccountId};{line.AccountId};{line.Balance.ToString().Replace(',', '.')}");
+                    file.WriteLine($"{line.AccountId};{line.CustomerId};{line.Balance.ToString().Replace(',', '.')}");
                 }
 
             }
@@ -134,5 +134,30 @@ namespace BankDatabaseRepo
             return fileName;
         }
 
+        public bool CreateCustomer(string name, string adress, string phone, string city, string country, string zipcode, string orgNo, string state)
+        {
+            try
+            {
+                _customer.Add(new Customer { CustomerId= _customer.Count() +1, Name = name, Adress = adress, City = city, Phone = phone, Country = country, ZipCode = zipcode, OrginisationNumber = orgNo, State = state });
+                return true;
+            }
+            catch (Exception)
+            {
+                return false;
+            }
+        }
+
+        public bool DeleteCustomer(int customerId)
+        {
+            try
+            {
+                _customer.Remove(_customer.FirstOrDefault(x => x.CustomerId == customerId));
+               return true;
+            }
+            catch (Exception)
+            {
+                return false;
+            }
+        }
     }
 }
