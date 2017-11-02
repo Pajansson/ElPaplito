@@ -67,7 +67,7 @@ namespace BankConsole
                 var toAcc = Int32.Parse(Console.ReadLine());
                 Console.WriteLine("Amount:");
                 var amount = decimal.Parse(Console.ReadLine());
-                
+
             }
             else if (userChoice == "3")
             {
@@ -93,12 +93,65 @@ namespace BankConsole
             else if (userChoice == "6")
             {
                 Console.WriteLine();
-                Console.WriteLine("Create customer");
+                Console.WriteLine("Create customer:");
+                Console.WriteLine();
+                Console.WriteLine("Name:");
+                var name = Console.ReadLine();
+                Console.WriteLine("Organisation number:");
+                var orgNo = Console.ReadLine();
+                Console.WriteLine("Adress:");
+                var adress = Console.ReadLine();
+                Console.WriteLine("City:");
+                var city = Console.ReadLine();
+                Console.WriteLine("State:");
+                var state = Console.ReadLine();
+                Console.WriteLine("ZipCode:");
+                var zipcode = Console.ReadLine();
+                Console.WriteLine("Country:");
+                var country = Console.ReadLine();
+                Console.WriteLine("Phone:");
+                var phone = Console.ReadLine();
+                var result = _repo.CreateCustomer(name, adress, phone, city, country, zipcode, orgNo, state);
+                if (result)
+                {
+                    Console.WriteLine("Customer added dont forget to save!");
+                    Console.WriteLine();
+                    DisplayMenu(_repo);
+                }
+                else
+                {
+                    Console.WriteLine("Shit happens");
+                    Console.WriteLine();
+                    DisplayMenu(_repo);
+                }
             }
             else if (userChoice == "7")
             {
                 Console.WriteLine();
                 Console.WriteLine("Delete customer");
+                Console.WriteLine();
+                Console.WriteLine("Enter customerId");
+
+                var id = Console.ReadLine();
+                if (id != "")
+                {
+                    var result = _repo.DeleteCustomer(Int32.Parse(id));
+                    if (result)
+                    {
+                        Console.WriteLine("Customer deleted, dount forget to save");
+                        Console.WriteLine();
+                        DisplayMenu(_repo);
+                    }
+                    else
+                    {
+                        Console.WriteLine("Something went wrong. Wrong id?");
+                        Console.WriteLine();
+                        DisplayMenu(_repo);
+                    }
+                }
+
+
+
             }
             else if (userChoice == "8")
             {
