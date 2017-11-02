@@ -196,13 +196,17 @@ namespace BankConsole
                 Console.WriteLine();
                 Console.WriteLine("Enter Customer id: ");
                 int id = Int32.Parse(Console.ReadLine());
-                //REPO
+                _repo.CreateAccount(id);
 
             }
             else if (userChoice == "9")
             {
                 Console.WriteLine();
                 Console.WriteLine("Delete account");
+                Console.WriteLine();
+                Console.WriteLine("Enter Account id: ");
+                int id = Int32.Parse(Console.ReadLine());
+                _repo.DeleteAccount(id);
             }
 
             else
