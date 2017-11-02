@@ -124,7 +124,7 @@ namespace BankConsole
                 Console.WriteLine("Enter amount: ");
                 Console.WriteLine();
                 decimal amount = Int32.Parse(Console.ReadLine());
-                var result = bankLogic.Transaction(fromAccId, toAccId, amount);
+                var result = bankLogic.Transaction(_repo,fromAccId, toAccId, amount);
                 if (result == "Success")
                 {
                     Console.WriteLine("Successful transaction.");
