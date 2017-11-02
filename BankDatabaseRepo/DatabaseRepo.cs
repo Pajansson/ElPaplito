@@ -86,7 +86,7 @@ namespace BankDatabaseRepo
                 file.WriteLine(_accounts.Count().ToString());
                 foreach (var line in _accounts)
                 {
-                    file.WriteLine($"{line.AccountId};{line.AccountId};{line.Balance.ToString().Replace(',', '.')}");
+                    file.WriteLine($"{line.AccountId};{line.CustomerId};{line.Balance.ToString().Replace(',', '.')}");
                 }
 
             }

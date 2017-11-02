@@ -14,7 +14,7 @@ namespace BankConsole
             var _repo = new DatabaseRepo();
             var banklogic = new BankLogic();
             _repo.ImportAllData();
-            DisplayMenu(_repo,banklogic);
+            DisplayMenu(_repo, banklogic);
         }
 
         public static void DisplayMenu(DatabaseRepo _repo, BankLogic bankLogic)
@@ -62,10 +62,10 @@ namespace BankConsole
             }
             else if (userChoice == "2")
             {
-                
+
                 Console.WriteLine();
                 Console.WriteLine("From which Customer?");
-                
+
                 var fromCusId = Int32.Parse(Console.ReadLine());
                 var cusAccs = bankLogic.GetCustomersAccounts(fromCusId, _repo.AllAccounts());
                 Console.WriteLine("Which account?");
@@ -82,9 +82,9 @@ namespace BankConsole
                 }
                 Console.WriteLine("Amount:");
                 var amount = decimal.Parse(Console.ReadLine());
-    
+
                 bankLogic.Withdraw(amount, fromAcc);
-                Console.WriteLine("You now have " + fromAcc.Balance+"$ left!");
+                Console.WriteLine("You now have " + fromAcc.Balance + "$ left!");
 
             }
             else if (userChoice == "3")
@@ -94,9 +94,21 @@ namespace BankConsole
                 Console.WriteLine("Enter account id:");
                 var id = Int32.Parse(Console.ReadLine());
                 Console.WriteLine("Amount");
-                var amount = decimal.Parse(Console.ReadLine());
+                var amount = Console.ReadLine();
 
-                
+                if (amount.Contains("-"))
+                {
+                    Console.WriteLine("No negative number are allowed");
+                }
+                else
+                {
+                    bankLogic.Deposit(decimal.Parse(amount), id, _repo);
+                }
+
+                DisplayMenu(_repo, bankLogic);
+
+
+
             }
             else if (userChoice == "4")
             {
@@ -201,7 +213,7 @@ namespace BankConsole
 
         }
 
-        private static void Search(DatabaseRepo _repo,BankLogic bankLogic,  string searchPatern)
+        private static void Search(DatabaseRepo _repo, BankLogic bankLogic, string searchPatern)
         {
             var result = _repo.AllCustomers().Where(x => x.Name.Contains(searchPatern) || x.City.Contains(searchPatern)).ToList();
 
