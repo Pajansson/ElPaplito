@@ -114,6 +114,27 @@ namespace BankConsole
             {
                 Console.WriteLine();
                 Console.WriteLine("Transaction");
+                Console.WriteLine();
+                Console.WriteLine("From Account: Enter Account id");
+                Console.WriteLine();
+                int fromAccId = Int32.Parse(Console.ReadLine());
+                Console.WriteLine();
+                Console.WriteLine("To Account: Enter Account id");
+                Console.WriteLine();
+                int toAccId = Int32.Parse(Console.ReadLine());
+                Console.WriteLine();
+                Console.WriteLine("Enter amount: ");
+                Console.WriteLine();
+                decimal amount = Int32.Parse(Console.ReadLine());
+                var result = bankLogic.Transaction(fromAccId, toAccId, amount);
+                if (result == "Success")
+                {
+                    Console.WriteLine("Successful transaction.");
+                }
+                else
+                {
+                    Console.WriteLine("Failed transaction");
+                }
             }
             else if (userChoice == "5")
             {
