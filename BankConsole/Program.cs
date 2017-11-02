@@ -133,6 +133,8 @@ namespace BankConsole
                 {
                     Console.WriteLine("Failed transaction");
                 }
+                Console.ReadKey();
+                DisplayMenu(_repo, bankLogic);
             }
             else if (userChoice == "5")
             {
