@@ -70,6 +70,7 @@ namespace BankConsole
                     Console.Write("Account: " + acc.AccountId);
                     Console.WriteLine(" Balance: " + acc.Balance);
                 }
+                Console.ReadKey();
                 DisplayMenu(_repo,bankLogic);
             }
             else if (userChoice == "2")
@@ -98,9 +99,9 @@ namespace BankConsole
                 }
                 Console.WriteLine("Amount:");
                 var amount = (Console.ReadLine());
-                if (amount.Contains("-"))
+                if (amount.Contains("-") || decimal.Parse(amount) > fromAcc.Balance)
                 {
-                    Console.WriteLine("No negative number are allowed");
+                    Console.WriteLine("Withdraw failed!");
                 }
                 else
                 {
@@ -108,6 +109,7 @@ namespace BankConsole
                 }
                 
                 Console.WriteLine("You now have " + fromAcc.Balance +"$ left!");
+                Console.ReadKey();
                 DisplayMenu(_repo, bankLogic);
             }
             else if (userChoice == "3")
