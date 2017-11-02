@@ -2,6 +2,7 @@
 using System;
 using System.Linq;
 using BankLib;
+using BankLogicRepo;
 
 namespace BankConsole
 {
@@ -20,8 +21,8 @@ namespace BankConsole
             Console.WriteLine("* Welcome to ElPaplito, the worst bank in the world! *");
             DrawStarLine();
             Console.WriteLine("Importing from " + _repo.GetCurrentTextFile());
-            Console.WriteLine("Total Customers: " + _repo.AllCustomers().Count());
-            Console.WriteLine("Total Accounts: " + _repo.AllAccounts().Count());
+            Console.WriteLine("Total Customers: " + _repo.AllCustomers().Count);
+            Console.WriteLine("Total Accounts: " + _repo.AllAccounts().Count);
             Console.WriteLine("Total balance: " + _repo.AllAccounts().Max(x => x.Balance));
             Console.ReadLine();
             Console.WriteLine("0. Search");
@@ -59,14 +60,30 @@ namespace BankConsole
             }
             else if (userChoice == "2")
             {
+                var banklogic = new BankLogic();
                 Console.WriteLine();
-                Console.WriteLine("From which account?");
-                var fromAcc = Int32.Parse(Console.ReadLine());
-                Console.WriteLine("To which account?");
-                var toAcc = Int32.Parse(Console.ReadLine());
+                Console.WriteLine("From which Customer?");
+                
+                var fromCusId = Int32.Parse(Console.ReadLine());
+                var cusAccs = banklogic.GetCustomersAccounts(fromCusId, _repo.AllAccounts());
+                Console.WriteLine("Which account?");
+                foreach (var acc in cusAccs)
+                {
+                    Console.Write("Account: " + acc.AccountId);
+                    Console.WriteLine(" Balance: " + acc.Balance);
+                }
+                var fromAccId = Int32.Parse(Console.ReadLine());
+                var fromAcc = _repo.AllAccounts().FirstOrDefault(x => x.AccountId == fromAccId);
+                if (fromAcc == null)
+                {
+                    Console.WriteLine("Could not find account!");
+                }
                 Console.WriteLine("Amount:");
                 var amount = decimal.Parse(Console.ReadLine());
-                
+                var bankLogic = new BankLogic();
+                bankLogic.Withdraw(amount, fromAcc);
+                Console.WriteLine("You now have " + fromAcc.Balance+"$ left!");
+
             }
             else if (userChoice == "3")
             {
@@ -152,6 +169,13 @@ namespace BankConsole
 
         }
 
+        private void SearchCustomer(Customer customer)
+        {
+            if (customer == null)
+            {
+                Console.WriteLine("Could not find customer!");
+            }
+        }
         private static Customer ShowCustomer(DatabaseRepo _repo, int customerId)
         {
             return _repo.AllCustomers().FirstOrDefault(x => x.CustomerId == customerId);

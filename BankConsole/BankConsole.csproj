@@ -8,6 +8,7 @@
   <ItemGroup>
     <ProjectReference Include="..\BankDatabaseRepo\BankDatabaseRepo.csproj" />
     <ProjectReference Include="..\BankLib\BankLib.csproj" />
+    <ProjectReference Include="..\BankLogicRepo\BankLogicRepo.csproj" />
   </ItemGroup>
 
 </Project>

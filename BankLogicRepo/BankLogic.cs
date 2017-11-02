@@ -60,5 +60,10 @@ namespace BankLogicRepo
             }
         }
 
+        public List<Account> GetCustomersAccounts(int customerId, List<Account> accounts)
+        {
+            return accounts.Where(x => x.CustomerId == customerId).ToList();
+        }
+
     }
 }
