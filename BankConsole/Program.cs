@@ -12,11 +12,12 @@ namespace BankConsole
         static void Main(string[] args)
         {
             var _repo = new DatabaseRepo();
+            var banklogic = new BankLogic();
             _repo.ImportAllData();
-            DisplayMenu(_repo);
+            DisplayMenu(_repo,banklogic);
         }
 
-        public static void DisplayMenu(DatabaseRepo _repo)
+        public static void DisplayMenu(DatabaseRepo _repo, BankLogic bankLogic)
         {
             DrawStarLine();
             Console.WriteLine("* Welcome to ElPaplito, the worst bank in the world! *");
@@ -44,7 +45,7 @@ namespace BankConsole
                 Console.WriteLine();
                 Console.WriteLine("Search:");
                 var result = Console.ReadLine();
-                Search(_repo, result);
+                Search(_repo, bankLogic, result);
 
 
             }
@@ -61,12 +62,12 @@ namespace BankConsole
             }
             else if (userChoice == "2")
             {
-                var banklogic = new BankLogic();
+                
                 Console.WriteLine();
                 Console.WriteLine("From which Customer?");
                 
                 var fromCusId = Int32.Parse(Console.ReadLine());
-                var cusAccs = banklogic.GetCustomersAccounts(fromCusId, _repo.AllAccounts());
+                var cusAccs = bankLogic.GetCustomersAccounts(fromCusId, _repo.AllAccounts());
                 Console.WriteLine("Which account?");
                 foreach (var acc in cusAccs)
                 {
@@ -81,7 +82,7 @@ namespace BankConsole
                 }
                 Console.WriteLine("Amount:");
                 var amount = decimal.Parse(Console.ReadLine());
-                var bankLogic = new BankLogic();
+    
                 bankLogic.Withdraw(amount, fromAcc);
                 Console.WriteLine("You now have " + fromAcc.Balance+"$ left!");
 
@@ -139,13 +140,13 @@ namespace BankConsole
                 {
                     Console.WriteLine("Customer added dont forget to save!");
                     Console.WriteLine();
-                    DisplayMenu(_repo);
+                    DisplayMenu(_repo, bankLogic);
                 }
                 else
                 {
                     Console.WriteLine("Shit happens");
                     Console.WriteLine();
-                    DisplayMenu(_repo);
+                    DisplayMenu(_repo, bankLogic);
                 }
             }
             else if (userChoice == "7")
@@ -163,13 +164,13 @@ namespace BankConsole
                     {
                         Console.WriteLine("Customer deleted, dount forget to save");
                         Console.WriteLine();
-                        DisplayMenu(_repo);
+                        DisplayMenu(_repo, bankLogic);
                     }
                     else
                     {
                         Console.WriteLine("Something went wrong. Wrong id?");
                         Console.WriteLine();
-                        DisplayMenu(_repo);
+                        DisplayMenu(_repo, bankLogic);
                     }
                 }
 
@@ -200,7 +201,7 @@ namespace BankConsole
 
         }
 
-        private static void Search(DatabaseRepo _repo, string searchPatern)
+        private static void Search(DatabaseRepo _repo,BankLogic bankLogic,  string searchPatern)
         {
             var result = _repo.AllCustomers().Where(x => x.Name.Contains(searchPatern) || x.City.Contains(searchPatern)).ToList();
 
@@ -226,11 +227,11 @@ namespace BankConsole
                 Console.WriteLine();
                 Console.WriteLine("Search");
                 var result1 = Console.ReadLine();
-                Search(_repo, result1);
+                Search(_repo, bankLogic, result1);
             }
             else
             {
-                DisplayMenu(_repo);
+                DisplayMenu(_repo, bankLogic);
             }
 
         }
