@@ -54,11 +54,13 @@ namespace BankLogicRepo
             }
         }
 
-        public void Withdraw(decimal amount, Account account)
+        public void Withdraw(decimal amount, int accountId, DatabaseRepo _Repo)
         {
+            var account = _Repo.AllAccounts().FirstOrDefault(x => x.AccountId == accountId);
+
             if (amount > 0 && account.Balance >= amount)
             {
-                account.Balance = -amount;
+                account.Balance -= amount;
             }
         }
 
