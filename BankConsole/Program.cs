@@ -25,7 +25,7 @@ namespace BankConsole
             Console.WriteLine("Importing from " + _repo.GetCurrentTextFile());
             Console.WriteLine("Total Customers: " + _repo.AllCustomers().Count);
             Console.WriteLine("Total Accounts: " + _repo.AllAccounts().Count);
-            Console.WriteLine("Total balance: " + _repo.AllAccounts().Max(x => x.Balance));
+            Console.WriteLine("Total balance: " + _repo.AllAccounts().Sum(x => x.Balance));
             Console.ReadLine();
             Console.WriteLine("0. Search");
             Console.WriteLine("1. Show customer");
