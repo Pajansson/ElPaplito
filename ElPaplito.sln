@@ -9,6 +9,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "BankDatabaseRepo", "BankDat
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "BankConsole", "BankConsole\BankConsole.csproj", "{FF9A2617-9FD3-40A2-8C74-E6E1FD63FA31}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "BankLogicRepo", "BankLogicRepo\BankLogicRepo.csproj", "{E6F9C656-5CFA-4F70-8E70-EAD8120366E2}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -27,6 +29,10 @@ Global
 		{FF9A2617-9FD3-40A2-8C74-E6E1FD63FA31}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{FF9A2617-9FD3-40A2-8C74-E6E1FD63FA31}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{FF9A2617-9FD3-40A2-8C74-E6E1FD63FA31}.Release|Any CPU.Build.0 = Release|Any CPU
+		{E6F9C656-5CFA-4F70-8E70-EAD8120366E2}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{E6F9C656-5CFA-4F70-8E70-EAD8120366E2}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{E6F9C656-5CFA-4F70-8E70-EAD8120366E2}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{E6F9C656-5CFA-4F70-8E70-EAD8120366E2}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
