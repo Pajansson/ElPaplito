@@ -159,5 +159,33 @@ namespace BankDatabaseRepo
                 return false;
             }
         }
+
+        public bool CreateAccount(int customerId)
+        {
+            try
+            {
+                _accounts.Add(new Account { AccountId = _accounts.Count() + 1, Balance = 0, CustomerId = customerId });
+                return true;
+            }
+            catch (Exception)
+            {
+                return false;
+            }
+            
+        }
+
+        public bool DeleteAccount(int accountId)
+        {
+            try
+            {
+                _accounts.Remove(_accounts.FirstOrDefault(x => x.AccountId == accountId));
+                return true;
+            }
+            catch (Exception)
+            {
+                return false;
+            }
+           
+        }
     }
 }

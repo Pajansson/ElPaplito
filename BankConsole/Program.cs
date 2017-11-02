@@ -137,6 +137,27 @@ namespace BankConsole
             {
                 Console.WriteLine();
                 Console.WriteLine("Transaction");
+                Console.WriteLine();
+                Console.WriteLine("From Account: Enter Account id");
+                Console.WriteLine();
+                int fromAccId = Int32.Parse(Console.ReadLine());
+                Console.WriteLine();
+                Console.WriteLine("To Account: Enter Account id");
+                Console.WriteLine();
+                int toAccId = Int32.Parse(Console.ReadLine());
+                Console.WriteLine();
+                Console.WriteLine("Enter amount: ");
+                Console.WriteLine();
+                decimal amount = Int32.Parse(Console.ReadLine());
+                var result = bankLogic.Transaction(_repo,fromAccId, toAccId, amount);
+                if (result == "Success")
+                {
+                    Console.WriteLine("Successful transaction.");
+                }
+                else
+                {
+                    Console.WriteLine("Failed transaction");
+                }
             }
             else if (userChoice == "5")
             {
@@ -216,11 +237,20 @@ namespace BankConsole
             {
                 Console.WriteLine();
                 Console.WriteLine("Create account");
+                Console.WriteLine();
+                Console.WriteLine("Enter Customer id: ");
+                int id = Int32.Parse(Console.ReadLine());
+                _repo.CreateAccount(id);
+
             }
             else if (userChoice == "9")
             {
                 Console.WriteLine();
                 Console.WriteLine("Delete account");
+                Console.WriteLine();
+                Console.WriteLine("Enter Account id: ");
+                int id = Int32.Parse(Console.ReadLine());
+                _repo.DeleteAccount(id);
             }
 
             else
@@ -275,5 +305,6 @@ namespace BankConsole
         {
             return _repo.AllCustomers().FirstOrDefault(x => x.CustomerId == customerId);
         }
+
     }
 }
