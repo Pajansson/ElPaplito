@@ -18,8 +18,8 @@ namespace BankLogicRepo
 
             if (CheckIfTransactionPossible(fromAcc, amount))
             {
-                fromAcc.Balance = amount;
-                toAcc.Balance = +amount;
+                fromAcc.Balance -= amount;
+                toAcc.Balance += amount;
                 bankDb.CreateTransaction(new Transaction
                 {
                     Amount = amount,
