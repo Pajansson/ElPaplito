@@ -50,7 +50,7 @@ namespace BankLogicRepo
 
             if (amount > 0)
             {
-                account.Balance = +amount;
+                account.Balance += amount;
             }
         }
 

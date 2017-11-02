@@ -14,7 +14,7 @@ namespace BankConsole
             var _repo = new DatabaseRepo();
             var banklogic = new BankLogic();
             _repo.ImportAllData();
-            DisplayMenu(_repo,banklogic);
+            DisplayMenu(_repo, banklogic);
         }
 
         public static void DisplayMenu(DatabaseRepo _repo, BankLogic bankLogic)
@@ -25,7 +25,7 @@ namespace BankConsole
             Console.WriteLine("Importing from " + _repo.GetCurrentTextFile());
             Console.WriteLine("Total Customers: " + _repo.AllCustomers().Count);
             Console.WriteLine("Total Accounts: " + _repo.AllAccounts().Count);
-            Console.WriteLine("Total balance: " + _repo.AllAccounts().Max(x => x.Balance));
+            Console.WriteLine("Total balance: " + _repo.AllAccounts().Sum(x => x.Balance));
             Console.ReadLine();
             Console.WriteLine("0. Search");
             Console.WriteLine("1. Show customer");
@@ -92,9 +92,21 @@ namespace BankConsole
                 Console.WriteLine("Enter account id:");
                 var id = Int32.Parse(Console.ReadLine());
                 Console.WriteLine("Amount");
-                var amount = decimal.Parse(Console.ReadLine());
+                var amount = Console.ReadLine();
 
-                
+                if (amount.Contains("-"))
+                {
+                    Console.WriteLine("No negative number are allowed");
+                }
+                else
+                {
+                    bankLogic.Deposit(decimal.Parse(amount), id, _repo);
+                }
+
+                DisplayMenu(_repo, bankLogic);
+
+
+
             }
             else if (userChoice == "4")
             {
@@ -199,7 +211,7 @@ namespace BankConsole
 
         }
 
-        private static void Search(DatabaseRepo _repo,BankLogic bankLogic,  string searchPatern)
+        private static void Search(DatabaseRepo _repo, BankLogic bankLogic, string searchPatern)
         {
             var result = _repo.AllCustomers().Where(x => x.Name.Contains(searchPatern) || x.City.Contains(searchPatern)).ToList();
 
