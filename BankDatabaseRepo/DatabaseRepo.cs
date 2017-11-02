@@ -160,7 +160,7 @@ namespace BankDatabaseRepo
             }
         }
 
-        public bool CreateAccount(int accountId, int customerId)
+        public bool CreateAccount(int customerId)
         {
             try
             {
