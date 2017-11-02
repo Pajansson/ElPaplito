@@ -62,18 +62,16 @@ namespace BankConsole
             }
             else if (userChoice == "2")
             {
-
                 Console.WriteLine();
                 Console.WriteLine("From which Customer?");
-
                 var fromCusId = Int32.Parse(Console.ReadLine());
                 var cusAccs = bankLogic.GetCustomersAccounts(fromCusId, _repo.AllAccounts());
-                Console.WriteLine("Which account?");
                 foreach (var acc in cusAccs)
                 {
                     Console.Write("Account: " + acc.AccountId);
                     Console.WriteLine(" Balance: " + acc.Balance);
                 }
+                Console.WriteLine("Which account?");
                 var fromAccId = Int32.Parse(Console.ReadLine());
                 var fromAcc = _repo.AllAccounts().FirstOrDefault(x => x.AccountId == fromAccId);
                 if (fromAcc == null)
@@ -82,9 +80,9 @@ namespace BankConsole
                 }
                 Console.WriteLine("Amount:");
                 var amount = decimal.Parse(Console.ReadLine());
-
-                bankLogic.Withdraw(amount, fromAcc);
-                Console.WriteLine("You now have " + fromAcc.Balance + "$ left!");
+    
+                bankLogic.Withdraw(amount, fromAccId, _repo);
+                Console.WriteLine("You now have " + fromAcc.Balance +"$ left!");
 
             }
             else if (userChoice == "3")
@@ -114,6 +112,27 @@ namespace BankConsole
             {
                 Console.WriteLine();
                 Console.WriteLine("Transaction");
+                Console.WriteLine();
+                Console.WriteLine("From Account: Enter Account id");
+                Console.WriteLine();
+                int fromAccId = Int32.Parse(Console.ReadLine());
+                Console.WriteLine();
+                Console.WriteLine("To Account: Enter Account id");
+                Console.WriteLine();
+                int toAccId = Int32.Parse(Console.ReadLine());
+                Console.WriteLine();
+                Console.WriteLine("Enter amount: ");
+                Console.WriteLine();
+                decimal amount = Int32.Parse(Console.ReadLine());
+                var result = bankLogic.Transaction(fromAccId, toAccId, amount);
+                if (result == "Success")
+                {
+                    Console.WriteLine("Successful transaction.");
+                }
+                else
+                {
+                    Console.WriteLine("Failed transaction");
+                }
             }
             else if (userChoice == "5")
             {
@@ -193,11 +212,20 @@ namespace BankConsole
             {
                 Console.WriteLine();
                 Console.WriteLine("Create account");
+                Console.WriteLine();
+                Console.WriteLine("Enter Customer id: ");
+                int id = Int32.Parse(Console.ReadLine());
+                _repo.CreateAccount(id);
+
             }
             else if (userChoice == "9")
             {
                 Console.WriteLine();
                 Console.WriteLine("Delete account");
+                Console.WriteLine();
+                Console.WriteLine("Enter Account id: ");
+                int id = Int32.Parse(Console.ReadLine());
+                _repo.DeleteAccount(id);
             }
 
             else
@@ -217,7 +245,7 @@ namespace BankConsole
         {
             var result = _repo.AllCustomers().Where(x => x.Name.Contains(searchPatern) || x.City.Contains(searchPatern)).ToList();
 
-            if (result.Count() == 0)
+            if (!result.Any())
             {
                 Console.WriteLine($"Nein nobody here");
             }
@@ -248,16 +276,16 @@ namespace BankConsole
 
         }
 
-        private void SearchCustomer(Customer customer)
+        private static bool SearchCustomer(Customer customer)
         {
-            if (customer == null)
-            {
-                Console.WriteLine("Could not find customer!");
-            }
+            if (customer != null) return true;
+            Console.WriteLine("Could not find customer!");
+            return false;
         }
         private static Customer ShowCustomer(DatabaseRepo _repo, int customerId)
         {
             return _repo.AllCustomers().FirstOrDefault(x => x.CustomerId == customerId);
         }
+
     }
 }
