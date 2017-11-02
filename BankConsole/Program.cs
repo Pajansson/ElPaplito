@@ -193,6 +193,11 @@ namespace BankConsole
             {
                 Console.WriteLine();
                 Console.WriteLine("Create account");
+                Console.WriteLine();
+                Console.WriteLine("Enter Customer id: ");
+                int id = Int32.Parse(Console.ReadLine());
+                //REPO
+
             }
             else if (userChoice == "9")
             {
@@ -259,5 +264,6 @@ namespace BankConsole
         {
             return _repo.AllCustomers().FirstOrDefault(x => x.CustomerId == customerId);
         }
+
     }
 }
