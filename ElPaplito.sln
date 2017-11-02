@@ -5,11 +5,13 @@ VisualStudioVersion = 15.0.26730.10
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "BankLib", "BankLib\BankLib.csproj", "{0F14739E-800C-4E8B-91E1-CDD5B7983483}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "BankDatabaseRepo", "BankDatabaseRepo\BankDatabaseRepo.csproj", "{17166649-857A-43D7-90C2-7A6642EACC3E}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "BankDatabaseRepo", "BankDatabaseRepo\BankDatabaseRepo.csproj", "{17166649-857A-43D7-90C2-7A6642EACC3E}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "BankConsole", "BankConsole\BankConsole.csproj", "{FF9A2617-9FD3-40A2-8C74-E6E1FD63FA31}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "BankConsole", "BankConsole\BankConsole.csproj", "{FF9A2617-9FD3-40A2-8C74-E6E1FD63FA31}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "BankLogicRepo", "BankLogicRepo\BankLogicRepo.csproj", "{E6F9C656-5CFA-4F70-8E70-EAD8120366E2}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "BankLogicRepo", "BankLogicRepo\BankLogicRepo.csproj", "{E6F9C656-5CFA-4F70-8E70-EAD8120366E2}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "UnitTestLib", "UnitTestLib\UnitTestLib.csproj", "{D3E14A81-0059-440A-8CC0-B09F38C95ACD}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -33,6 +35,10 @@ Global
 		{E6F9C656-5CFA-4F70-8E70-EAD8120366E2}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{E6F9C656-5CFA-4F70-8E70-EAD8120366E2}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{E6F9C656-5CFA-4F70-8E70-EAD8120366E2}.Release|Any CPU.Build.0 = Release|Any CPU
+		{D3E14A81-0059-440A-8CC0-B09F38C95ACD}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{D3E14A81-0059-440A-8CC0-B09F38C95ACD}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{D3E14A81-0059-440A-8CC0-B09F38C95ACD}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{D3E14A81-0059-440A-8CC0-B09F38C95ACD}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
