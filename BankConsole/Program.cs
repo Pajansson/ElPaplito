@@ -73,6 +73,12 @@ namespace BankConsole
             {
                 Console.WriteLine();
                 Console.WriteLine("Deposit");
+                Console.WriteLine("Enter account id:");
+                var id = Int32.Parse(Console.ReadLine());
+                Console.WriteLine("Amount");
+                var amount = decimal.Parse(Console.ReadLine());
+
+                
             }
             else if (userChoice == "4")
             {

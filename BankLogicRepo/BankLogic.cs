@@ -44,8 +44,10 @@ namespace BankLogicRepo
             return true;
         }
 
-        public void Deposit(decimal amount, Account account)
+        public void Deposit(decimal amount, int accountId, DatabaseRepo _Repo)
         {
+            var account = _Repo.AllAccounts().FirstOrDefault(x => x.AccountId == accountId);
+
             if (amount > 0)
             {
                 account.Balance = +amount;
