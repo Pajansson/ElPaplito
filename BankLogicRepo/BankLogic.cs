@@ -8,10 +8,9 @@ namespace BankLogicRepo
 {
     public class BankLogic
     {
-        public string Transaction(int fromAccId, int toAccId, decimal amount)
+        public string Transaction(DatabaseRepo _repo, int fromAccId, int toAccId, decimal amount)
         {
-            var bankDb = new DatabaseRepo();
-            var accounts = bankDb.AllAccounts();
+            var accounts = _repo.AllAccounts();
             var fromAcc = accounts.FirstOrDefault(x => x.AccountId == fromAccId);
             var toAcc = accounts.FirstOrDefault(x => x.AccountId == toAccId);
             string result;
@@ -20,7 +19,7 @@ namespace BankLogicRepo
             {
                 fromAcc.Balance -= amount;
                 toAcc.Balance += amount;
-                bankDb.CreateTransaction(new Transaction
+                _repo.CreateTransaction(new Transaction
                 {
                     Amount = amount,
                     FromAccountId = fromAccId,
@@ -37,7 +36,7 @@ namespace BankLogicRepo
 
         public bool CheckIfTransactionPossible(Account fromAcc, decimal amount)
         {
-            if (fromAcc.Balance <= amount && amount > 0)
+            if (fromAcc.Balance <= amount && amount > 0M)
             {
                 return false;
             }
