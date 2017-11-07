@@ -63,16 +63,27 @@ namespace BankConsole
                 Console.WriteLine("CustomerId: " + result.CustomerId);
                 Console.WriteLine("Orginisation: " + result.OrginisationNumber);
                 Console.WriteLine("Name: " + result.Name);
-                Console.WriteLine("Adress: " + result.Adress);
+                Console.WriteLine("Adress: " + result.Adress + " Zipcode: " + result.ZipCode + " City: " + result.City + " Country: " + result.Country);
+                Console.WriteLine();
                 var accs = bankLogic.GetCustomersAccounts(customerId, _repo.AllAccounts());
-                foreach (var acc in accs)
+                if (accs.Count() == 0)
                 {
-                    Console.Write("Account: " + acc.AccountId);
-                    Console.WriteLine(" Balance: " + acc.Balance);
+                    Console.Write("This customer does not have any accounts.");
                 }
-                Console.WriteLine("Press any key to continue...");
+                else
+                {
+                    foreach (var acc in accs)
+                    {
+                        Console.Write("Account: " + acc.AccountId);
+                        Console.WriteLine(" Balance: " + acc.Balance);
+                    }
+                }
+
                 Console.ReadKey();
                 DisplayMenu(_repo, bankLogic);
+                Console.Beep();
+                Console.Clear();
+                DisplayMenu(_repo,bankLogic);
             }
             else if (userChoice == "2")
             {
@@ -138,21 +149,30 @@ namespace BankConsole
             }
             else if (userChoice == "4")
             {
+                int fromAcc = 0;
+                int toAcc = 0;
+
                 Console.WriteLine();
                 Console.WriteLine("Transaction");
                 Console.WriteLine();
                 Console.WriteLine("From Account: Enter Account id");
                 Console.WriteLine();
-                int fromAccId = Int32.Parse(Console.ReadLine());
+                while (!int.TryParse(Console.ReadLine(), out fromAcc))
+                {
+                    Console.WriteLine("Please Enter a valid account id!");
+                }
                 Console.WriteLine();
                 Console.WriteLine("To Account: Enter Account id");
                 Console.WriteLine();
-                int toAccId = Int32.Parse(Console.ReadLine());
+                while (!int.TryParse(Console.ReadLine(), out toAcc))
+                {
+                    Console.WriteLine("Please Enter a valid account id!");
+                }
                 Console.WriteLine();
                 Console.WriteLine("Enter amount: ");
                 Console.WriteLine();
-                decimal amount = Int32.Parse(Console.ReadLine());
-                var result = bankLogic.Transaction(_repo, fromAccId, toAccId, amount);
+                decimal amount = decimal.Parse(Console.ReadLine());
+                var result = bankLogic.Transaction(_repo, fromAcc, toAcc, amount);
                 if (result == "Success")
                 {
                     Console.WriteLine("Successful transaction.");
@@ -170,6 +190,9 @@ namespace BankConsole
                 Console.WriteLine("Exit and save");
                 _repo.SaveDateToTextFile();
                 Console.WriteLine("Info has been saved to: " + _repo.GetCurrentTextFile());
+                Console.WriteLine();
+                Console.WriteLine("Total Customers: " + _repo.AllCustomers().Count);
+                Console.WriteLine("Total Accounts: " + _repo.AllAccounts().Count);
                 Thread.Sleep(5000);
                 Environment.Exit(0);
 
