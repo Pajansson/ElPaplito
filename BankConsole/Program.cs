@@ -159,7 +159,7 @@ namespace BankConsole
                 Console.WriteLine();
                 Console.WriteLine("Enter amount: ");
                 Console.WriteLine();
-                decimal amount = Int32.Parse(Console.ReadLine());
+                decimal amount = decimal.Parse(Console.ReadLine());
                 var result = bankLogic.Transaction(_repo, fromAcc, toAcc, amount);
                 if (result == "Success")
                 {
