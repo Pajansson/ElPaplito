@@ -169,6 +169,9 @@ namespace BankConsole
                 Console.WriteLine("Exit and save");
                 _repo.SaveDateToTextFile();
                 Console.WriteLine("Info has been saved to: " + _repo.GetCurrentTextFile());
+                Console.WriteLine();
+                Console.WriteLine("Total Customers: " + _repo.AllCustomers().Count);
+                Console.WriteLine("Total Accounts: " + _repo.AllAccounts().Count);
                 Thread.Sleep(5000);
                 Environment.Exit(0);
 
