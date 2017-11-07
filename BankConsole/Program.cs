@@ -63,7 +63,7 @@ namespace BankConsole
                 Console.WriteLine("CustomerId: " + result.CustomerId);
                 Console.WriteLine("Orginisation: " + result.OrginisationNumber);
                 Console.WriteLine("Name: " + result.Name);
-                Console.WriteLine("Adress: " + result.Adress);
+                Console.WriteLine("Adress: " + result.Adress + " Zipcode: " + result.ZipCode + " City: " + result.City + " Country: " + result.Country);
                 Console.WriteLine();
                 var accs = bankLogic.GetCustomersAccounts(customerId, _repo.AllAccounts());
                 if (accs.Count() == 0)
