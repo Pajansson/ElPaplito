@@ -26,6 +26,7 @@ namespace BankConsole
             Console.WriteLine("Total Customers: " + _repo.AllCustomers().Count);
             Console.WriteLine("Total Accounts: " + _repo.AllAccounts().Count);
             Console.WriteLine("Total balance: " + _repo.AllAccounts().Sum(x => x.Balance));
+            Console.WriteLine("Press any key to continue...");
             Console.ReadLine();
             Console.WriteLine("0. Search");
             Console.WriteLine("1. Show customer");
@@ -69,6 +70,7 @@ namespace BankConsole
                     Console.Write("Account: " + acc.AccountId);
                     Console.WriteLine(" Balance: " + acc.Balance);
                 }
+                Console.WriteLine("Press any key to continue...");
                 Console.ReadKey();
                 DisplayMenu(_repo, bankLogic);
             }
@@ -289,10 +291,28 @@ namespace BankConsole
                 Console.WriteLine();
                 Console.WriteLine("Create account");
                 Console.WriteLine();
-                Console.WriteLine("Enter Customer id: ");
-                int id = Int32.Parse(Console.ReadLine());
-                _repo.CreateAccount(id);
+                Console.WriteLine("Enter CustomerId: ");
+                int customerId;
+                while (!int.TryParse(Console.ReadLine(), out customerId))
+                {
+                    Console.WriteLine("Could not find any customer, try again...");
+                }
+                var customer = ShowCustomer(_repo, customerId);
 
+                if (customer != null)
+                {
+                    _repo.CreateAccount(customerId);
+                    Console.WriteLine("Your account has been created, press any key to continue!");
+                    Console.ReadKey();
+                    DisplayMenu(_repo, bankLogic);
+                }
+                else
+                {
+                    Console.WriteLine("Could not find account!");
+                    Console.WriteLine("Press any key to continue...");
+                    Console.ReadKey();
+                    DisplayMenu(_repo, bankLogic);
+                }
             }
             else if (userChoice == "9")
             {

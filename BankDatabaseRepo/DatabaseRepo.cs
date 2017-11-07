@@ -166,7 +166,7 @@ namespace BankDatabaseRepo
         {
             try
             {
-                _accounts.Add(new Account { AccountId = _accounts.Count() + 1, Balance = 0, CustomerId = customerId });
+                _accounts.Add(new Account { AccountId = GenerateAccountId(), Balance = 0, CustomerId = customerId });
                 return true;
             }
             catch (Exception)
@@ -188,6 +188,11 @@ namespace BankDatabaseRepo
                 return false;
             }
            
+        }
+
+        public int GenerateAccountId()
+        {
+            return _accounts.Max(x => x.AccountId) + 1;
         }
     }
 }
