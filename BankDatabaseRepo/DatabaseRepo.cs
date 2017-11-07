@@ -138,7 +138,9 @@ namespace BankDatabaseRepo
         {
             try
             {
-                _customer.Add(new Customer { CustomerId= _customer.Count() +1, Name = name, Adress = adress, City = city, Phone = phone, Country = country, ZipCode = zipcode, OrginisationNumber = orgNo, State = state });
+                var customer = new Customer { CustomerId = _customer.Max(x => x.CustomerId) + 1, Name = name, Adress = adress, City = city, Phone = phone, Country = country, ZipCode = zipcode, OrginisationNumber = orgNo, State = state };
+                _customer.Add(customer);
+                _accounts.Add(new Account { AccountId = _accounts.Max(x => x.AccountId) + 1, CustomerId = customer.CustomerId, Balance = 0 });
                 return true;
             }
             catch (Exception)
