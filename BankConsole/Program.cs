@@ -46,8 +46,6 @@ namespace BankConsole
                 Console.WriteLine("Search:");
                 var result = Console.ReadLine();
                 Search(_repo, bankLogic, result);
-
-
             }
             else if (userChoice == "1")
             {
@@ -243,9 +241,16 @@ namespace BankConsole
                 Console.WriteLine("Create account");
                 Console.WriteLine();
                 Console.WriteLine("Enter Customer id: ");
-                int id = Int32.Parse(Console.ReadLine());
-                _repo.CreateAccount(id);
-
+                int customerId = Int32.Parse(Console.ReadLine());
+                while (ShowCustomer(_repo, customerId) == null)
+                {
+                    Console.WriteLine("Could not find any customer, try again...");
+                    customerId = Int32.Parse(Console.ReadLine());
+                }
+                _repo.CreateAccount(customerId);
+                Console.WriteLine("Your account has been created, press any key to continue!");
+                Console.ReadKey();
+                DisplayMenu(_repo, bankLogic);
             }
             else if (userChoice == "9")
             {
