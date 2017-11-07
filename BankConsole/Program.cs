@@ -137,21 +137,30 @@ namespace BankConsole
             }
             else if (userChoice == "4")
             {
+                int fromAcc = 0;
+                int toAcc = 0;
+
                 Console.WriteLine();
                 Console.WriteLine("Transaction");
                 Console.WriteLine();
                 Console.WriteLine("From Account: Enter Account id");
                 Console.WriteLine();
-                int fromAccId = Int32.Parse(Console.ReadLine());
+                while (!int.TryParse(Console.ReadLine(), out fromAcc))
+                {
+                    Console.WriteLine("Please Enter a valid account id!");
+                }
                 Console.WriteLine();
                 Console.WriteLine("To Account: Enter Account id");
                 Console.WriteLine();
-                int toAccId = Int32.Parse(Console.ReadLine());
+                while (!int.TryParse(Console.ReadLine(), out toAcc))
+                {
+                    Console.WriteLine("Please Enter a valid account id!");
+                }
                 Console.WriteLine();
                 Console.WriteLine("Enter amount: ");
                 Console.WriteLine();
                 decimal amount = Int32.Parse(Console.ReadLine());
-                var result = bankLogic.Transaction(_repo,fromAccId, toAccId, amount);
+                var result = bankLogic.Transaction(_repo, fromAcc, toAcc, amount);
                 if (result == "Success")
                 {
                     Console.WriteLine("Successful transaction.");
