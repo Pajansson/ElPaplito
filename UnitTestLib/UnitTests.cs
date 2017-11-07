@@ -1,5 +1,6 @@
 using BankLib;
 using System;
+using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using Xunit;
@@ -109,6 +110,18 @@ namespace UnitTestLib
             string[] arr = System.IO.File.ReadAllLines($"C:\\Development\\Bank\\{x}");
 
             Assert.NotEqual(0, arr.Length);
+        }
+
+        [Fact]
+        public void CreateCustomer()
+        {
+            var _customer = new List<Customer>
+            {
+                new Customer { Adress = "Vägen 17", City = "Stockholm", Country = "Sweden", Name = "Andres hemmabygge", OrginisationNumber = "00000", Phone = "00000", State = "", ZipCode = "12139" }
+            };
+
+            Assert.Equal(1, _customer.Count);
+
         }
     }
 }
