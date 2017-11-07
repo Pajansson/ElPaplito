@@ -192,9 +192,7 @@ namespace BankDatabaseRepo
 
         public int GenerateAccountId()
         {
-            int id = _accounts.Max(x => x.AccountId) + 1;
-
-            return id;
+            return _accounts.Max(x => x.AccountId) + 1;
         }
     }
 }

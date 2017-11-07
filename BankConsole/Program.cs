@@ -297,9 +297,9 @@ namespace BankConsole
                 {
                     Console.WriteLine("Could not find any customer, try again...");
                 }
-                var x = ShowCustomer(_repo, customerId);
+                var customer = ShowCustomer(_repo, customerId);
 
-                if (x != null)
+                if (customer != null)
                 {
                     _repo.CreateAccount(customerId);
                     Console.WriteLine("Your account has been created, press any key to continue!");
