@@ -45,8 +45,7 @@ namespace BankConsole
                 Console.WriteLine();
                 Console.WriteLine("Search:");
                 var result = Console.ReadLine();
-                Search(_repo, bankLogic, result);
-
+                Search(_repo, bankLogic, result.ToLower());
 
             }
             else if (userChoice == "1")
@@ -320,19 +319,22 @@ namespace BankConsole
 
         private static void Search(DatabaseRepo _repo, BankLogic bankLogic, string searchPatern)
         {
-            var result = _repo.AllCustomers().Where(x => x.Name.Contains(searchPatern) || x.City.Contains(searchPatern)).ToList();
+            var result = _repo.AllCustomers().Where(x => x.Name.ToLower().Contains(searchPatern) || x.City.ToLower().Contains(searchPatern)).ToList();
 
             if (!result.Any())
             {
-                Console.WriteLine($"Nein nobody here");
+                Console.WriteLine("Nein nobody here");
             }
             else
             {
+                
                 foreach (var item in result)
                 {
                     Console.WriteLine($"{item.CustomerId} : {item.Name}");
                 }
+                
             }
+            DrawStarLine();
             Console.WriteLine();
             Console.WriteLine("Search again press 0 else press 1");
             var input = Console.ReadLine();
@@ -348,6 +350,8 @@ namespace BankConsole
             }
             else
             {
+                Console.Beep();
+                Console.Clear();
                 DisplayMenu(_repo, bankLogic);
             }
 
