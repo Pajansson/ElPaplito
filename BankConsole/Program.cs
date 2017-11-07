@@ -71,7 +71,7 @@ namespace BankConsole
                     Console.WriteLine(" Balance: " + acc.Balance);
                 }
                 Console.ReadKey();
-                DisplayMenu(_repo,bankLogic);
+                DisplayMenu(_repo, bankLogic);
             }
             else if (userChoice == "2")
             {
@@ -107,8 +107,8 @@ namespace BankConsole
                 {
                     bankLogic.Withdraw(decimal.Parse(amount), fromAccId, _repo);
                 }
-                
-                Console.WriteLine("You now have " + fromAcc.Balance +"$ left!");
+
+                Console.WriteLine("You now have " + fromAcc.Balance + "$ left!");
                 Console.ReadKey();
                 DisplayMenu(_repo, bankLogic);
             }
@@ -151,7 +151,7 @@ namespace BankConsole
                 Console.WriteLine("Enter amount: ");
                 Console.WriteLine();
                 decimal amount = Int32.Parse(Console.ReadLine());
-                var result = bankLogic.Transaction(_repo,fromAccId, toAccId, amount);
+                var result = bankLogic.Transaction(_repo, fromAccId, toAccId, amount);
                 if (result == "Success")
                 {
                     Console.WriteLine("Successful transaction.");
@@ -176,35 +176,83 @@ namespace BankConsole
             }
             else if (userChoice == "6")
             {
+                int orgNo = 0;
+
                 Console.WriteLine();
                 Console.WriteLine("Create customer:");
                 Console.WriteLine();
+
                 Console.WriteLine("Name:");
                 var name = Console.ReadLine();
+                while (String.IsNullOrEmpty(name))
+                {
+                    Console.WriteLine("Please enter a valid Name");
+                    name = Console.ReadLine();
+                }
+
                 Console.WriteLine("Organisation number:");
-                var orgNo = Console.ReadLine();
+                while (!int.TryParse(Console.ReadLine(), out orgNo))
+                {
+                    Console.WriteLine("Please Enter a valid numerical value!");
+                    Console.WriteLine("Please Enter an ID number:");
+                }
+
                 Console.WriteLine("Adress:");
                 var adress = Console.ReadLine();
+                while (String.IsNullOrEmpty(name))
+                {
+                    Console.WriteLine("Please enter a valid Adress");
+                    adress = Console.ReadLine();
+                }
+
                 Console.WriteLine("City:");
                 var city = Console.ReadLine();
+                while (String.IsNullOrEmpty(city))
+                {
+                    Console.WriteLine("Please enter a valid city");
+                    city = Console.ReadLine();
+                }
+
                 Console.WriteLine("State:");
                 var state = Console.ReadLine();
+
                 Console.WriteLine("ZipCode:");
                 var zipcode = Console.ReadLine();
+                while (String.IsNullOrEmpty(zipcode))
+                {
+                    Console.WriteLine("Please enter a valid zipcode");
+                    zipcode = Console.ReadLine();
+                }
+
                 Console.WriteLine("Country:");
                 var country = Console.ReadLine();
+                while (String.IsNullOrEmpty(country))
+                {
+                    Console.WriteLine("Please enter a valid country");
+                    country = Console.ReadLine();
+                }
+
                 Console.WriteLine("Phone:");
                 var phone = Console.ReadLine();
-                var result = _repo.CreateCustomer(name, adress, phone, city, country, zipcode, orgNo, state);
+                while (String.IsNullOrEmpty(phone))
+                {
+                    Console.WriteLine("Please enter a valid phone");
+                    phone = Console.ReadLine();
+                }
+
+                var result = _repo.CreateCustomer(name, adress, phone, city, country, zipcode, orgNo.ToString(), state);
                 if (result)
                 {
-                    Console.WriteLine("Customer added dont forget to save!");
-                    Console.WriteLine();
+                    DrawStarLine();
+                    Console.WriteLine("Customer added dount forget to save!");
+                    Console.Beep();
+                    DrawStarLine();
+                    Console.WriteLine(); Console.WriteLine();
                     DisplayMenu(_repo, bankLogic);
                 }
                 else
                 {
-                    Console.WriteLine("Shit happens");
+                    Console.WriteLine("Shit happens try again");
                     Console.WriteLine();
                     DisplayMenu(_repo, bankLogic);
                 }
