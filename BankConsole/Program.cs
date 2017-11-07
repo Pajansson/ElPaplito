@@ -64,12 +64,21 @@ namespace BankConsole
                 Console.WriteLine("Orginisation: " + result.OrginisationNumber);
                 Console.WriteLine("Name: " + result.Name);
                 Console.WriteLine("Adress: " + result.Adress);
+                Console.WriteLine();
                 var accs = bankLogic.GetCustomersAccounts(customerId, _repo.AllAccounts());
-                foreach (var acc in accs)
+                if (accs.Count() == 0)
                 {
-                    Console.Write("Account: " + acc.AccountId);
-                    Console.WriteLine(" Balance: " + acc.Balance);
+                    Console.Write("This customer does not have any accounts.");
                 }
+                else
+                {
+                    foreach (var acc in accs)
+                    {
+                        Console.Write("Account: " + acc.AccountId);
+                        Console.WriteLine(" Balance: " + acc.Balance);
+                    }
+                }
+
                 Console.ReadKey();
                 DisplayMenu(_repo,bankLogic);
             }
