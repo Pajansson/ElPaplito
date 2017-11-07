@@ -142,5 +142,17 @@ namespace UnitTestLib
             var result = bankLogic.GetCustomersAccounts(1, accounts).Count;
             Assert.Equal(2, result);
         }
+
+        [Fact]
+        public void CreateCustomer()
+        {
+            var _customer = new List<Customer>
+            {
+                new Customer { Adress = "Vägen 17", City = "Stockholm", Country = "Sweden", Name = "Andres hemmabygge", OrginisationNumber = "00000", Phone = "00000", State = "", ZipCode = "12139" }
+            };
+
+            Assert.Equal(1, _customer.Count);
+
+        }
     }
 }
