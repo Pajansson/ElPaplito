@@ -80,6 +80,8 @@ namespace BankConsole
                 }
 
                 Console.ReadKey();
+                Console.Beep();
+                Console.Clear();
                 DisplayMenu(_repo,bankLogic);
             }
             else if (userChoice == "2")
