@@ -198,7 +198,7 @@ namespace BankConsole
 
                 Console.WriteLine("Adress:");
                 var adress = Console.ReadLine();
-                while (String.IsNullOrEmpty(name))
+                while (String.IsNullOrEmpty(adress))
                 {
                     Console.WriteLine("Please enter a valid Adress");
                     adress = Console.ReadLine();
