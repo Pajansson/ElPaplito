@@ -75,13 +75,15 @@ namespace BankConsole
                 }
                 else
                 {
+                    decimal total = 0;
                     foreach (var acc in accs)
                     {
+                        total += acc.Balance;
                         Console.Write("Account: " + acc.AccountId);
                         Console.WriteLine(" Balance: " + acc.Balance);
                     }
+                    Console.WriteLine("Total balance: " +  total);
                 }
-
                 Console.ReadKey();
                 DisplayMenu(_repo, bankLogic);
                 Console.Beep();
@@ -289,28 +291,28 @@ namespace BankConsole
                 Console.WriteLine();
                 Console.WriteLine("Delete customer");
                 Console.WriteLine();
-                Console.WriteLine("Enter customerId");
-
-                var id = Console.ReadLine();
-                if (id != "")
+                Console.WriteLine("Enter CustomerId: ");
+                int customerId;
+                int.TryParse(Console.ReadLine(), out customerId);
+                while (ValidateCustomerId(customerId, _repo) == false)
                 {
-                    var result = _repo.DeleteCustomer(Int32.Parse(id));
-                    if (result)
-                    {
-                        Console.WriteLine("Customer deleted, dount forget to save");
-                        Console.WriteLine();
-                        DisplayMenu(_repo, bankLogic);
-                    }
-                    else
-                    {
-                        Console.WriteLine("Something went wrong. Wrong id?");
-                        Console.WriteLine();
-                        DisplayMenu(_repo, bankLogic);
-                    }
+                    Console.WriteLine("Could not find any customer, try again...");
+                    Console.WriteLine("Press any key to try again");
+                    int.TryParse(Console.ReadLine(), out customerId);
                 }
-
-
-
+                if (bankLogic.ValidateDeleteCustomer(customerId, _repo.AllAccounts()) == false)
+                {
+                    Console.WriteLine("Can´t delete customer, customer still have money left!");
+                    Console.WriteLine("Press any key to continue...");
+                    Console.ReadKey();
+                }
+                else
+                {
+                    _repo.DeleteCustomer(customerId);
+                    Console.WriteLine("Customer deleted, dount forget to save");
+                    Console.WriteLine();
+                }
+                DisplayMenu(_repo, bankLogic);
             }
             else if (userChoice == "8")
             {
@@ -337,15 +339,24 @@ namespace BankConsole
                 Console.WriteLine("Delete account");
                 Console.WriteLine();
                 Console.WriteLine("Enter Account id: ");
-                int id = Int32.Parse(Console.ReadLine());
-                _repo.DeleteAccount(id);
+                int accountId;
+                int.TryParse(Console.ReadLine(), out accountId);
+                while (ValidateAccountId(accountId, _repo) == false)
+                {
+                    Console.WriteLine("ERROR! Invalid accountId or account still have money");
+                    DisplayMenu(_repo, bankLogic);
+                    int.TryParse(Console.ReadLine(), out accountId);
+                }
+                _repo.DeleteAccount(accountId);
+                Console.WriteLine("Account deleted");
             }
+                Console.ReadLine();
+        }
 
-            else
-            {
-                Console.WriteLine("Not a valid option!");
-            }
-            Console.ReadLine();
+        private static bool ValidateAccountId(int accountId, DatabaseRepo repo)
+        {
+            var account = repo.AllAccounts().Find(x => x.AccountId == accountId);
+            return account != null && account.Balance == 0;
         }
 
         private static bool ValidateCustomerId(int customerId, DatabaseRepo repo)
