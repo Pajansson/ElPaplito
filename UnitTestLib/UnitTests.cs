@@ -1,7 +1,9 @@
 using BankLib;
 using System;
+using System.Collections.Generic;
 using System.IO;
 using System.Linq;
+using BankLogicRepo;
 using Xunit;
 
 namespace UnitTestLib
@@ -109,6 +111,48 @@ namespace UnitTestLib
             string[] arr = System.IO.File.ReadAllLines($"C:\\Development\\Bank\\{x}");
 
             Assert.NotEqual(0, arr.Length);
+        }
+
+        [Fact]
+        public void GetCustomerAccount()
+        {
+            var bankLogic = new BankLogic();
+            var accounts = new List<Account>();
+            var acc1 = new Account
+            {
+                Balance = 1111,
+                AccountId = 1,
+                CustomerId = 1
+            };
+            var acc2 = new Account
+            {
+                Balance = 3333,
+                AccountId = 2,
+                CustomerId = 1
+            };
+            var acc3 = new Account
+            {
+                Balance = 444,
+                AccountId = 3,
+                CustomerId = 3
+            };
+            accounts.Add(acc1);
+            accounts.Add(acc2);
+            accounts.Add(acc3);
+            var result = bankLogic.GetCustomersAccounts(1, accounts).Count;
+            Assert.Equal(2, result);
+        }
+
+        [Fact]
+        public void CreateCustomer()
+        {
+            var _customer = new List<Customer>
+            {
+                new Customer { Adress = "Vägen 17", City = "Stockholm", Country = "Sweden", Name = "Andres hemmabygge", OrginisationNumber = "00000", Phone = "00000", State = "", ZipCode = "12139" }
+            };
+
+            Assert.Equal(1, _customer.Count);
+
         }
     }
 }

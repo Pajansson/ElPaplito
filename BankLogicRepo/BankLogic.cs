@@ -68,5 +68,16 @@ namespace BankLogicRepo
             return accounts.Where(x => x.CustomerId == customerId).ToList();
         }
 
+        public bool ValidateDeleteCustomer(int customerId, List<Account> accounts)
+        {
+            var customerAccounts = GetCustomersAccounts(customerId, accounts);
+            return customerAccounts.Sum(x => x.Balance) == 0;
+        }
+
+        //public bool ValidateAccount(int accountId, List<Account> accounts)
+        //{
+        //    var account = accounts.FirstOrDefault(x => x.AccountId == accountId);
+        //    return account != null;
+        //}
     }
 }
