@@ -82,13 +82,9 @@ namespace BankConsole
                         Console.Write("Account: " + acc.AccountId);
                         Console.WriteLine(" Balance: " + acc.Balance);
                     }
-                    Console.WriteLine("Total balance: " +  total);
+                    Console.WriteLine("Total balance: " + total);
                 }
-                Console.ReadKey();
-                DisplayMenu(_repo, bankLogic);
-                Console.Beep();
-                Console.Clear();
-                DisplayMenu(_repo,bankLogic);
+                ClearAndReoload(_repo, bankLogic);
             }
             else if (userChoice == "2")
             {
@@ -127,16 +123,37 @@ namespace BankConsole
 
                 Console.WriteLine("You now have " + fromAcc.Balance + "$ left!");
                 Console.ReadKey();
-                DisplayMenu(_repo, bankLogic);
+                ClearAndReoload(_repo, bankLogic);
             }
             else if (userChoice == "3")
             {
                 Console.WriteLine();
-                Console.WriteLine("Deposit");
-                Console.WriteLine("Enter account id:");
-                var id = Int32.Parse(Console.ReadLine());
-                Console.WriteLine("Amount");
-                var amount = Console.ReadLine();
+                Console.WriteLine("CustomerId: ");
+                var fromCusId = Int32.Parse(Console.ReadLine());
+                while (_repo.AllCustomers().FirstOrDefault(x => x.CustomerId == fromCusId) == null)
+                {
+                    Console.WriteLine("Could not find any customer, try again...");
+                    fromCusId = Int32.Parse(Console.ReadLine());
+                }
+                var cusAccs = bankLogic.GetCustomersAccounts(fromCusId, _repo.AllAccounts());
+                foreach (var acc in cusAccs)
+                {
+                    Console.Write("Account: " + acc.AccountId);
+                    Console.WriteLine(" Balance: " + acc.Balance);
+                }
+                Console.WriteLine("Which account?");
+                var fromAccId = Int32.Parse(Console.ReadLine());
+
+                var fromAcc = _repo.AllAccounts().FirstOrDefault(x => x.AccountId == fromAccId);
+
+                while (_repo.AllAccounts().FirstOrDefault(x => x.AccountId == fromAccId) == null)
+                {
+                    Console.WriteLine("Could not find account, try again...");
+                    fromAccId = Int32.Parse(Console.ReadLine());
+                }
+                Console.WriteLine("Amount:");
+                var amount = (Console.ReadLine());
+
 
                 if (amount.Contains("-"))
                 {
@@ -144,10 +161,12 @@ namespace BankConsole
                 }
                 else
                 {
-                    bankLogic.Deposit(decimal.Parse(amount), id, _repo);
+                    bankLogic.Deposit(decimal.Parse(amount), fromAccId, _repo);
                 }
 
-                DisplayMenu(_repo, bankLogic);
+                Console.WriteLine("You now have " + fromAcc.Balance + "$ on your account!");
+                Console.ReadKey();
+                ClearAndReoload(_repo, bankLogic);
 
 
 
@@ -180,14 +199,13 @@ namespace BankConsole
                 var result = bankLogic.Transaction(_repo, fromAcc, toAcc, amount);
                 if (result == "Success")
                 {
-                    Console.WriteLine("Successful transaction.");
+                    Console.WriteLine($"Successful transaction. Transfered: {amount}$ from account: {fromAcc} to account: {toAcc}");
                 }
                 else
                 {
                     Console.WriteLine("Failed transaction");
                 }
-                Console.ReadKey();
-                DisplayMenu(_repo, bankLogic);
+                ClearAndReoload(_repo, bankLogic);
             }
             else if (userChoice == "5")
             {
@@ -275,16 +293,13 @@ namespace BankConsole
                 {
                     DrawStarLine();
                     Console.WriteLine("Customer added dount forget to save!");
-                    Console.Beep();
-                    DrawStarLine();
-                    Console.WriteLine(); Console.WriteLine();
-                    DisplayMenu(_repo, bankLogic);
+                    ClearAndReoload(_repo, bankLogic);
                 }
                 else
                 {
                     Console.WriteLine("Shit happens try again");
                     Console.WriteLine();
-                    DisplayMenu(_repo, bankLogic);
+                    ClearAndReoload(_repo, bankLogic);
                 }
             }
             else if (userChoice == "7")
@@ -313,7 +328,7 @@ namespace BankConsole
                     Console.WriteLine("Customer deleted, dount forget to save");
                     Console.WriteLine();
                 }
-                DisplayMenu(_repo, bankLogic);
+                ClearAndReoload(_repo, bankLogic);
             }
             else if (userChoice == "8")
             {
@@ -329,11 +344,10 @@ namespace BankConsole
                     Console.WriteLine("Press any key to try again");
                     int.TryParse(Console.ReadLine(), out customerId);
                 }
-                    _repo.CreateAccount(customerId);
-                    Console.WriteLine("Your account has been created, press any key to continue!");
-                    Console.ReadKey();
-                    DisplayMenu(_repo, bankLogic);
-                }
+                _repo.CreateAccount(customerId);
+                Console.WriteLine("Your account has been created");
+                ClearAndReoload(_repo, bankLogic);
+            }
             else if (userChoice == "9")
             {
                 Console.WriteLine();
@@ -350,8 +364,10 @@ namespace BankConsole
                 }
                 _repo.DeleteAccount(accountId);
                 Console.WriteLine("Account deleted");
+                ClearAndReoload(_repo, bankLogic);
+
             }
-                Console.ReadLine();
+            Console.ReadLine();
         }
 
         private static bool ValidateAccountId(int accountId, DatabaseRepo repo)
@@ -385,12 +401,12 @@ namespace BankConsole
             }
             else
             {
-                
+
                 foreach (var item in result)
                 {
                     Console.WriteLine($"{item.CustomerId} : {item.Name}");
                 }
-                
+
             }
             DrawStarLine();
             Console.WriteLine();
@@ -408,9 +424,7 @@ namespace BankConsole
             }
             else
             {
-                Console.Beep();
-                Console.Clear();
-                DisplayMenu(_repo, bankLogic);
+                ClearAndReoload(_repo, bankLogic);
             }
 
         }
@@ -418,6 +432,16 @@ namespace BankConsole
         private static Customer ShowCustomer(DatabaseRepo _repo, int customerId)
         {
             return _repo.AllCustomers().FirstOrDefault(x => x.CustomerId == customerId);
+        }
+
+        private static void ClearAndReoload(DatabaseRepo _repo, BankLogic bankLogic)
+        {
+            DrawStarLine();
+            Console.WriteLine("Press any key to continue");
+            Console.ReadKey();
+            Console.Clear();
+            Console.Beep();
+            DisplayMenu(_repo, bankLogic);
         }
 
     }
