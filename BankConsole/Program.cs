@@ -2,6 +2,7 @@
 using System;
 using System.Linq;
 using System.Threading;
+using System.Xml.Serialization;
 using BankLib;
 using BankLogicRepo;
 
@@ -53,11 +54,13 @@ namespace BankConsole
             {
                 Console.WriteLine();
                 Console.WriteLine("CustomerId:");
-                var customerId = Int32.Parse(Console.ReadLine());
-                while (ShowCustomer(_repo, customerId) == null)
+                int customerId;
+                int.TryParse(Console.ReadLine(), out customerId);
+                while (ValidateCustomerId(customerId, _repo) == false)
                 {
                     Console.WriteLine("Could not find any customer, try again...");
-                    customerId = Int32.Parse(Console.ReadLine());
+                    Console.WriteLine("Press any key to try again");
+                    int.TryParse(Console.ReadLine(), out customerId);
                 }
                 var result = ShowCustomer(_repo, customerId);
                 Console.WriteLine("CustomerId: " + result.CustomerId);
@@ -66,7 +69,7 @@ namespace BankConsole
                 Console.WriteLine("Adress: " + result.Adress + " Zipcode: " + result.ZipCode + " City: " + result.City + " Country: " + result.Country);
                 Console.WriteLine();
                 var accs = bankLogic.GetCustomersAccounts(customerId, _repo.AllAccounts());
-                if (accs.Count() == 0)
+                if (accs.Count == 0)
                 {
                     Console.Write("This customer does not have any accounts.");
                 }
@@ -316,27 +319,18 @@ namespace BankConsole
                 Console.WriteLine();
                 Console.WriteLine("Enter CustomerId: ");
                 int customerId;
-                while (!int.TryParse(Console.ReadLine(), out customerId))
+                int.TryParse(Console.ReadLine(), out customerId);
+                while (ValidateCustomerId(customerId, _repo) == false)
                 {
                     Console.WriteLine("Could not find any customer, try again...");
+                    Console.WriteLine("Press any key to try again");
+                    int.TryParse(Console.ReadLine(), out customerId);
                 }
-                var customer = ShowCustomer(_repo, customerId);
-
-                if (customer != null)
-                {
                     _repo.CreateAccount(customerId);
                     Console.WriteLine("Your account has been created, press any key to continue!");
                     Console.ReadKey();
                     DisplayMenu(_repo, bankLogic);
                 }
-                else
-                {
-                    Console.WriteLine("Could not find account!");
-                    Console.WriteLine("Press any key to continue...");
-                    Console.ReadKey();
-                    DisplayMenu(_repo, bankLogic);
-                }
-            }
             else if (userChoice == "9")
             {
                 Console.WriteLine();
@@ -352,6 +346,15 @@ namespace BankConsole
                 Console.WriteLine("Not a valid option!");
             }
             Console.ReadLine();
+        }
+
+        private static bool ValidateCustomerId(int customerId, DatabaseRepo repo)
+        {
+            while (ShowCustomer(repo, customerId) == null)
+            {
+                return false;
+            }
+            return true;
         }
 
         private static void DrawStarLine()
