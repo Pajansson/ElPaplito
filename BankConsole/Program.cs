@@ -198,6 +198,7 @@ namespace BankConsole
                 Console.WriteLine();
                 Console.WriteLine("Total Customers: " + _repo.AllCustomers().Count);
                 Console.WriteLine("Total Accounts: " + _repo.AllAccounts().Count);
+                Console.WriteLine("Total balance:" + _repo.AllAccounts().Sum(x => x.Balance));
                 Thread.Sleep(5000);
                 Environment.Exit(0);
 
