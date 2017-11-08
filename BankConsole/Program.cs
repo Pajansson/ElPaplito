@@ -88,13 +88,16 @@ namespace BankConsole
             }
             else if (userChoice == "2")
             {
+                int fromAccId = 0;
+                decimal amount = 0;
+                int fromCusId = 0;
                 Console.WriteLine();
                 Console.WriteLine("CustomerId: ");
-                var fromCusId = Int32.Parse(Console.ReadLine());
+                int.TryParse(Console.ReadLine(), out fromCusId);
                 while (_repo.AllCustomers().FirstOrDefault(x => x.CustomerId == fromCusId) == null)
                 {
                     Console.WriteLine("Could not find any customer, try again...");
-                    fromCusId = Int32.Parse(Console.ReadLine());
+                    int.TryParse(Console.ReadLine(), out fromCusId);
                 }
                 var cusAccs = bankLogic.GetCustomersAccounts(fromCusId, _repo.AllAccounts());
                 foreach (var acc in cusAccs)
@@ -103,22 +106,22 @@ namespace BankConsole
                     Console.WriteLine(" Balance: " + acc.Balance);
                 }
                 Console.WriteLine("Which account?");
-                var fromAccId = Int32.Parse(Console.ReadLine());
+                int.TryParse(Console.ReadLine(), out fromAccId);
                 var fromAcc = _repo.AllAccounts().FirstOrDefault(x => x.AccountId == fromAccId);
                 while (_repo.AllAccounts().FirstOrDefault(x => x.AccountId == fromAccId) == null)
                 {
                     Console.WriteLine("Could not find account, try again...");
-                    fromAccId = Int32.Parse(Console.ReadLine());
+                    int.TryParse(Console.ReadLine(), out fromAccId);
                 }
                 Console.WriteLine("Amount:");
-                var amount = (Console.ReadLine());
-                if (amount.Contains("-") || decimal.Parse(amount) > fromAcc.Balance)
+                decimal.TryParse(Console.ReadLine(), out amount);
+                if (amount > 0 || amount > fromAcc.Balance)
                 {
                     Console.WriteLine("Withdraw failed!");
                 }
                 else
                 {
-                    bankLogic.Withdraw(decimal.Parse(amount), fromAccId, _repo);
+                    bankLogic.Withdraw(amount, fromAccId, _repo);
                 }
 
                 Console.WriteLine("You now have " + fromAcc.Balance + "$ left!");
@@ -127,15 +130,16 @@ namespace BankConsole
             }
             else if (userChoice == "3")
             {
+                int fromCusId = 0;
+                int fromAccId = 0;
+                decimal amount = 0;
                 Console.WriteLine();
                 Console.WriteLine("CustomerId: ");
-                var fromCusId = Int32.Parse(Console.ReadLine());
+                int.TryParse(Console.ReadLine(), out fromCusId);
                 while (_repo.AllCustomers().FirstOrDefault(x => x.CustomerId == fromCusId) == null)
                 {
                     Console.WriteLine("Could not find any customer, try again...");
                     int.TryParse(Console.ReadLine(),out fromCusId);
-                    Console.WriteLine("CustomerId: ");
-                     fromCusId = Int32.Parse(Console.ReadLine());
                 }
                 var cusAccs = bankLogic.GetCustomersAccounts(fromCusId, _repo.AllAccounts());
                 foreach (var acc in cusAccs)
@@ -144,7 +148,7 @@ namespace BankConsole
                     Console.WriteLine(" Balance: " + acc.Balance);
                 }
                 Console.WriteLine("Which account?");
-                var fromAccId = Int32.Parse(Console.ReadLine());
+                int.TryParse(Console.ReadLine(), out fromAccId);
 
                 var fromAcc = _repo.AllAccounts().FirstOrDefault(x => x.AccountId == fromAccId);
 
@@ -152,20 +156,20 @@ namespace BankConsole
                 {
                     Console.WriteLine("Could not find account, try again...");
                      int.TryParse(Console.ReadLine(), out fromAccId);
-                    Console.WriteLine("AccountId: ");
-                    fromAccId = Int32.Parse(Console.ReadLine());
+
+
                 }
                 Console.WriteLine("Amount:");
-                var amount = (Console.ReadLine());
+                decimal.TryParse(Console.ReadLine(), out amount);
 
 
-                if (amount.Contains("-"))
+                if (amount > 0)
                 {
                     Console.WriteLine("No negative number are allowed");
                 }
                 else
                 {
-                    bankLogic.Deposit(decimal.Parse(amount), fromAccId, _repo);
+                    bankLogic.Deposit(amount, fromAccId, _repo);
                 }
 
                 Console.WriteLine("You now have " + fromAcc.Balance + "$ on your account!");
