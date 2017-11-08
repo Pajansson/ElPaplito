@@ -128,11 +128,32 @@ namespace BankConsole
             else if (userChoice == "3")
             {
                 Console.WriteLine();
-                Console.WriteLine("Deposit");
-                Console.WriteLine("Enter account id:");
-                var id = Int32.Parse(Console.ReadLine());
-                Console.WriteLine("Amount");
-                var amount = Console.ReadLine();
+                Console.WriteLine("CustomerId: ");
+                var fromCusId = Int32.Parse(Console.ReadLine());
+                while (_repo.AllCustomers().FirstOrDefault(x => x.CustomerId == fromCusId) == null)
+                {
+                    Console.WriteLine("Could not find any customer, try again...");
+                    fromCusId = Int32.Parse(Console.ReadLine());
+                }
+                var cusAccs = bankLogic.GetCustomersAccounts(fromCusId, _repo.AllAccounts());
+                foreach (var acc in cusAccs)
+                {
+                    Console.Write("Account: " + acc.AccountId);
+                    Console.WriteLine(" Balance: " + acc.Balance);
+                }
+                Console.WriteLine("Which account?");
+                var fromAccId = Int32.Parse(Console.ReadLine());
+
+                var fromAcc = _repo.AllAccounts().FirstOrDefault(x => x.AccountId == fromAccId);
+
+                while (_repo.AllAccounts().FirstOrDefault(x => x.AccountId == fromAccId) == null)
+                {
+                    Console.WriteLine("Could not find account, try again...");
+                    fromAccId = Int32.Parse(Console.ReadLine());
+                }
+                Console.WriteLine("Amount:");
+                var amount = (Console.ReadLine());
+
 
                 if (amount.Contains("-"))
                 {
@@ -140,9 +161,11 @@ namespace BankConsole
                 }
                 else
                 {
-                    bankLogic.Deposit(decimal.Parse(amount), id, _repo);
+                    bankLogic.Deposit(decimal.Parse(amount), fromAccId, _repo);
                 }
 
+                Console.WriteLine("You now have " + fromAcc.Balance + "$ on your account!");
+                Console.ReadKey();
                 ClearAndReoload(_repo, bankLogic);
 
 
