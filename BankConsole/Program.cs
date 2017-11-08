@@ -133,7 +133,9 @@ namespace BankConsole
                 while (_repo.AllCustomers().FirstOrDefault(x => x.CustomerId == fromCusId) == null)
                 {
                     Console.WriteLine("Could not find any customer, try again...");
-                    fromCusId = Int32.Parse(Console.ReadLine());
+                    int.TryParse(Console.ReadLine(),out fromCusId);
+                    Console.WriteLine("CustomerId: ");
+                     fromCusId = Int32.Parse(Console.ReadLine());
                 }
                 var cusAccs = bankLogic.GetCustomersAccounts(fromCusId, _repo.AllAccounts());
                 foreach (var acc in cusAccs)
@@ -149,6 +151,8 @@ namespace BankConsole
                 while (_repo.AllAccounts().FirstOrDefault(x => x.AccountId == fromAccId) == null)
                 {
                     Console.WriteLine("Could not find account, try again...");
+                     int.TryParse(Console.ReadLine(), out fromAccId);
+                    Console.WriteLine("AccountId: ");
                     fromAccId = Int32.Parse(Console.ReadLine());
                 }
                 Console.WriteLine("Amount:");
